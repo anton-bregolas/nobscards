@@ -1,0 +1,416 @@
+import { useMemo, useCallback, useState, useRef } from 'react'
+import type { View, StoredWord, Word, DictMeta, ExportedData } from './types'
+import { useSettings } from './hooks/useSettings'
+import { useLocalStorage } from './hooks/useLocalStorage'
+import rawData from './data/words-srp-rus-1000.json'
+import TopBar from './components/TopBar'
+import BottomBar from './components/BottomBar'
+import Home from './components/Home'
+import FavoritesTable from './components/FavoritesTable'
+import LearnedTable from './components/LearnedTable'
+import Settings from './components/Settings'
+import ErrorBoundary from './components/ErrorBoundary'
+
+const V_KEY = 'cardsLastScreen'
+const CUSTOM_DICT_KEY = 'cardsCustomDict'
+const CUSTOM_META_KEY = 'cardsCustomMeta'
+const CUSTOM_DICT_NAME_KEY = 'cardsCustomDictName'
+
+const FROMTO_FAV = 'fromToFavorites'
+const FROMTO_LRN = 'fromToLearned'
+const FROMTO_GUE = 'fromToGuessed'
+const FROMTO_VIW = 'fromToViewed'
+const TOFROM_FAV = 'toFromFavorites'
+const TOFROM_LRN = 'toFromLearned'
+const TOFROM_GUE = 'toFromGuessed'
+const TOFROM_VIW = 'toFromViewed'
+
+function getToday(): string {
+  return new Date().toISOString()
+}
+
+function normalizeWord(w: Record<string, unknown>): Word {
+  const word: Word = { id: w.id as number }
+  for (const key of Object.keys(w)) {
+    if (key !== 'id') {
+      word[key] = w[key] as string | string[] | number | null
+    }
+  }
+  return word
+}
+
+function useModeStorage<T>(key: string, initial: T) {
+  return useLocalStorage<T>(key, initial)
+}
+
+function App() {
+  const [view, setView] = useLocalStorage<View>(V_KEY, 'home')
+  const [settings, setSettings] = useSettings()
+
+  const [fromToFavorites, setFromToFavorites] = useModeStorage<StoredWord[]>(FROMTO_FAV, [])
+  const [fromToLearned, setFromToLearned] = useModeStorage<StoredWord[]>(FROMTO_LRN, [])
+  const [fromToGuessed, setFromToGuessed] = useModeStorage<number[]>(FROMTO_GUE, [])
+  const [fromToViewed, setFromToViewed] = useModeStorage<number[]>(FROMTO_VIW, [])
+
+  const [toFromFavorites, setToFromFavorites] = useModeStorage<StoredWord[]>(TOFROM_FAV, [])
+  const [toFromLearned, setToFromLearned] = useModeStorage<StoredWord[]>(TOFROM_LRN, [])
+  const [toFromGuessed, setToFromGuessed] = useModeStorage<number[]>(TOFROM_GUE, [])
+  const [toFromViewed, setToFromViewed] = useModeStorage<number[]>(TOFROM_VIW, [])
+
+  const pb = settings.phrasebookMode
+
+  const favorites = pb ? toFromFavorites : fromToFavorites
+  const setFavorites = pb ? setToFromFavorites : setFromToFavorites
+  const learned = pb ? toFromLearned : fromToLearned
+  const setLearned = pb ? setToFromLearned : setFromToLearned
+  const guessed = pb ? toFromGuessed : fromToGuessed
+  const setGuessed = pb ? setToFromGuessed : setFromToGuessed
+  const viewed = pb ? toFromViewed : fromToViewed
+  const setViewed = pb ? setToFromViewed : setFromToViewed
+
+  const saveRef = useRef<HTMLButtonElement>(null)
+  const homeInputRef = useRef<HTMLInputElement>(null)
+
+  const handleSkipToSection = useCallback(() => {
+    if (view === 'settings') {
+      saveRef.current?.focus()
+    } else if (view === 'home') {
+      homeInputRef.current?.focus()
+    }
+  }, [view])
+
+  const dictMeta: DictMeta = useMemo(() => {
+    const arr = rawData as unknown[]
+    const meta = arr[0] as DictMeta
+    return meta
+  }, [])
+
+  const wordList = useMemo(() => {
+    const arr = rawData as unknown[]
+    const words = arr.slice(1) as Record<string, unknown>[]
+    return words.map(normalizeWord)
+  }, [])
+
+  const [resetKey, setResetKey] = useState(0)
+  const [matchPct, setMatchPct] = useState<number | null>(null)
+  const [customWords, setCustomWords] = useState<Word[] | null>(() => {
+    try {
+      const stored = localStorage.getItem(CUSTOM_DICT_KEY)
+      if (stored) {
+        const parsed = JSON.parse(stored) as Record<string, unknown>[]
+        return parsed.map(normalizeWord)
+      }
+    } catch { /* ignore */ }
+    return null
+  })
+
+  const [customMeta, setCustomMeta] = useState<DictMeta | null>(() => {
+    try {
+      const stored = localStorage.getItem(CUSTOM_META_KEY)
+      if (stored) {
+        return JSON.parse(stored) as DictMeta
+      }
+    } catch { /* ignore */ }
+    return null
+  })
+
+  const [customDictName, setCustomDictName] = useState<string | null>(() => {
+    try {
+      const stored = localStorage.getItem(CUSTOM_DICT_NAME_KEY)
+      if (stored) return stored
+    } catch { /* ignore */ }
+    return null
+  })
+
+  const displayWords = useMemo(() => customWords || wordList, [customWords, wordList])
+
+  const displayMeta: DictMeta = useMemo(() => {
+    if (customMeta) return customMeta
+    if (customWords && customWords.length > 0) {
+      return {
+        type: 'custom',
+        langFrom: dictMeta.langFrom,
+        langTo: dictMeta.langTo,
+        langToAlt: dictMeta.langToAlt,
+        langRef: dictMeta.langRef,
+      }
+    }
+    return dictMeta
+  }, [customWords, customMeta, dictMeta])
+
+  const dictionaryId = useMemo(() => {
+    let hash = 0
+    for (const w of displayWords) {
+      const ref = w[displayMeta.langRef] ?? w[displayMeta.langTo]
+      const str = `${w.id}|${ref}`
+      for (let i = 0; i < str.length; i++) {
+        hash = ((hash << 5) - hash) + str.charCodeAt(i)
+        hash |= 0
+      }
+    }
+    return `${displayMeta.type}-${displayMeta.langFrom}-${displayMeta.langTo}-${displayWords.length}-${hash}`
+  }, [displayWords, displayMeta])
+
+  const totalWords = displayWords.length
+
+  const handleAddViewed = useCallback((id: number) => {
+    setViewed((prev) => (prev.includes(id) ? prev : [...prev, id]))
+  }, [setViewed])
+
+  const handleAddGuessed = useCallback((id: number) => {
+    setGuessed((prev) => (prev.includes(id) ? prev : [...prev, id]))
+  }, [setGuessed])
+
+  const handleToggleFavorite = useCallback((id: number) => {
+    const isAlreadyFavorite = favorites.some((f) => f.id === id)
+    if (!isAlreadyFavorite) {
+      const learnedAccuStat = learned.find((l) => l.id === id)?.accuStat
+      setLearned((prev) => prev.filter((l) => l.id !== id))
+      setFavorites((prev) => {
+        const existing = prev.find((f) => f.id === id)
+        if (existing) return prev.filter((f) => f.id !== id)
+        const item: StoredWord = { id, addedAt: getToday() }
+        if (matchPct !== null) {
+          item.accuStat = [...(learnedAccuStat ?? []), matchPct]
+        } else if (learnedAccuStat?.length) {
+          item.accuStat = learnedAccuStat
+        }
+        return [...prev, item]
+      })
+    } else {
+      setFavorites((prev) => prev.filter((f) => f.id !== id))
+    }
+  }, [favorites, setFavorites, setLearned, matchPct, pb, learned])
+
+  const handleToggleLearned = useCallback((id: number) => {
+    const isAlreadyLearned = learned.some((l) => l.id === id)
+    if (!isAlreadyLearned) {
+      const favAccuStat = favorites.find((f) => f.id === id)?.accuStat
+      setFavorites((prev) => prev.filter((f) => f.id !== id))
+      setLearned((prev) => {
+        const existing = prev.find((l) => l.id === id)
+        if (existing) return prev.filter((l) => l.id !== id)
+        const item: StoredWord = { id, addedAt: getToday() }
+        if (matchPct !== null) {
+          item.accuStat = [...(favAccuStat ?? []), matchPct]
+        } else if (favAccuStat?.length) {
+          item.accuStat = favAccuStat
+        }
+        return [...prev, item]
+      })
+    } else {
+      setLearned((prev) => prev.filter((l) => l.id !== id))
+    }
+  }, [learned, setLearned, setFavorites, matchPct, pb, favorites])
+
+  const handleNavigate = useCallback((newView: View) => {
+    setView(newView)
+  }, [setView])
+
+  const handleReset = useCallback(() => {
+    setFromToFavorites([])
+    setFromToLearned([])
+    setFromToGuessed([])
+    setFromToViewed([])
+    setToFromFavorites([])
+    setToFromLearned([])
+    setToFromGuessed([])
+    setToFromViewed([])
+    const hasCustom = localStorage.getItem(CUSTOM_DICT_KEY) !== null
+    if (hasCustom) {
+      localStorage.removeItem(CUSTOM_DICT_KEY)
+      localStorage.removeItem(CUSTOM_META_KEY)
+      localStorage.removeItem(CUSTOM_DICT_NAME_KEY)
+      setCustomWords(null)
+      setCustomMeta(null)
+      setCustomDictName(null)
+    }
+    localStorage.removeItem('cardsSettings')
+    setSettings({
+      autoFlipOnWrong: false,
+      autoAdvanceOnLearn: false,
+      autoAddGuessedToLearned: false,
+      phrasebookMode: false,
+      phrasebookThreshold: 75,
+      useAltInputLang: false,
+      useRefLangForLabels: false,
+      sortTablesBy: ['date_desc'],
+    })
+    setResetKey((k) => k + 1)
+  }, [setSettings])
+
+  const handleExport = useCallback(() => {
+    const data: ExportedData = {
+      dictId: dictionaryId,
+      version: 1,
+      fromToFavorites,
+      fromToLearned,
+      fromToGuessed,
+      fromToViewed,
+      toFromFavorites,
+      toFromLearned,
+      toFromGuessed,
+      toFromViewed,
+    }
+    const date = new Date().toISOString().slice(0, 10).replace(/-/g, '')
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `nobscards-${date}-${dictionaryId}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  }, [dictionaryId, fromToFavorites, fromToLearned, fromToGuessed, fromToViewed, toFromFavorites, toFromLearned, toFromGuessed, toFromViewed])
+
+  const handleImportData = useCallback((data: ExportedData) => {
+    setFromToFavorites(Array.isArray(data.fromToFavorites) ? data.fromToFavorites : [])
+    setFromToLearned(Array.isArray(data.fromToLearned) ? data.fromToLearned : [])
+    setFromToGuessed(Array.isArray(data.fromToGuessed) ? data.fromToGuessed : [])
+    setFromToViewed(Array.isArray(data.fromToViewed) ? data.fromToViewed : [])
+    setToFromFavorites(Array.isArray(data.toFromFavorites) ? data.toFromFavorites : [])
+    setToFromLearned(Array.isArray(data.toFromLearned) ? data.toFromLearned : [])
+    setToFromGuessed(Array.isArray(data.toFromGuessed) ? data.toFromGuessed : [])
+    setToFromViewed(Array.isArray(data.toFromViewed) ? data.toFromViewed : [])
+    setResetKey((k) => k + 1)
+  }, [])
+
+  const handleChangeDictionary = useCallback((newWords: Word[], meta?: DictMeta, dictName?: string) => {
+    const normalized = newWords.map((w) => {
+      const word: Word = { id: w.id }
+      for (const key of Object.keys(w)) {
+        if (key !== 'id') word[key] = w[key]
+      }
+      return word
+    })
+    localStorage.setItem(CUSTOM_DICT_KEY, JSON.stringify(normalized))
+    setCustomWords(normalized)
+    if (meta) {
+      setCustomMeta(meta)
+      localStorage.setItem(CUSTOM_META_KEY, JSON.stringify(meta))
+    } else {
+      setCustomMeta(null)
+      localStorage.removeItem(CUSTOM_META_KEY)
+    }
+    if (dictName) {
+      setCustomDictName(dictName)
+      localStorage.setItem(CUSTOM_DICT_NAME_KEY, dictName)
+    } else {
+      setCustomDictName(null)
+      localStorage.removeItem(CUSTOM_DICT_NAME_KEY)
+    }
+    if (meta?.type === 'words') {
+      setSettings((prev) => ({ ...prev, phrasebookMode: false }))
+    } else if (meta?.type === 'phrases') {
+      setSettings((prev) => ({ ...prev, phrasebookMode: true }))
+    }
+    setFromToFavorites([])
+    setFromToLearned([])
+    setFromToGuessed([])
+    setFromToViewed([])
+    setToFromFavorites([])
+    setToFromLearned([])
+    setToFromGuessed([])
+    setToFromViewed([])
+    setResetKey((k) => k + 1)
+  }, [setSettings])
+
+  const handleUpdateFavoriteAccuStat = useCallback((id: number, pct: number) => {
+    setFavorites((prev) =>
+      prev.map((f) => {
+        if (f.id !== id) return f
+        const accuStat = [...(f.accuStat ?? []), pct]
+        return { ...f, pct, accuStat }
+      })
+    )
+  }, [setFavorites])
+
+  return (
+    <div className="min-h-dvh flex flex-col bg-bg">
+      <TopBar view={view} onNavigate={handleNavigate} onSkipToSection={handleSkipToSection} />
+
+      <main className="flex-1 flex flex-col items-center justify-center px-4 pt-9 smh:pt-24 pb-20">
+        <div className={view === 'home' ? 'contents' : 'hidden'}>
+          <Home key={resetKey}
+            ref={homeInputRef}
+            words={displayWords}
+            favorites={favorites}
+            learned={learned}
+            settings={settings}
+            dictMeta={displayMeta}
+            currentView={view}
+            onToggleFavorite={handleToggleFavorite}
+            onToggleLearned={handleToggleLearned}
+            onAddViewed={handleAddViewed}
+            onAddGuessed={handleAddGuessed}
+            onMatchResult={setMatchPct}
+            onUpdateFavoriteAccuStat={handleUpdateFavoriteAccuStat}
+          />
+        </div>
+        {view === 'favorites' && (
+          <div className="w-full animate-fade-in-up1">
+            <h1 className="text-lg font-semibold text-subhead text-center mb-4">Избранное</h1>
+            <ErrorBoundary>
+              <FavoritesTable
+                favorites={favorites}
+                words={displayWords}
+                dictMeta={displayMeta}
+                onToggleFavorite={handleToggleFavorite}
+                phrasebookMode={settings.phrasebookMode}
+                useAltInputLang={settings.useAltInputLang}
+                useRefLangForLabels={settings.useRefLangForLabels}
+                sortTablesBy={settings.sortTablesBy}
+                onSortTablesBy={(arr) => setSettings({ ...settings, sortTablesBy: arr })}
+              />
+            </ErrorBoundary>
+          </div>
+        )}
+        {view === 'learned' && (
+          <div className="w-full animate-fade-in-up1">
+            <h1 className="text-lg font-semibold text-subhead text-center mb-4">Пройденное</h1>
+            <ErrorBoundary>
+              <LearnedTable
+                learned={learned}
+                words={displayWords}
+                dictMeta={displayMeta}
+                onToggleLearned={handleToggleLearned}
+                phrasebookMode={settings.phrasebookMode}
+                useAltInputLang={settings.useAltInputLang}
+                useRefLangForLabels={settings.useRefLangForLabels}
+                sortTablesBy={settings.sortTablesBy}
+                onSortTablesBy={(arr) => setSettings({ ...settings, sortTablesBy: arr })}
+              />
+            </ErrorBoundary>
+          </div>
+        )}
+        {view === 'settings' && (
+          <div className="w-full animate-fade-in-up1">
+            <Settings
+              settings={settings}
+              onUpdate={setSettings}
+              onReset={handleReset}
+              dictionaryId={dictionaryId}
+              onExport={handleExport}
+              onImportData={handleImportData}
+              onChangeDictionary={handleChangeDictionary}
+              saveRef={saveRef}
+              initialDictName={customDictName}
+            />
+          </div>
+        )}
+      </main>
+
+      <BottomBar
+        view={view}
+        onNavigate={handleNavigate}
+        learnedCount={learned.length}
+        viewedCount={viewed.length}
+        guessedCount={guessed.length}
+        totalWords={totalWords}
+        matchPct={matchPct}
+        phrasebookMode={settings.phrasebookMode}
+      />
+    </div>
+  )
+}
+
+export default App
