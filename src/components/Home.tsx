@@ -14,7 +14,7 @@ interface HomeProps {
   onToggleFavorite: (id: number) => void
   onToggleLearned: (id: number) => void
   onAddViewed: (id: number) => void
-  onAddGuessed: (id: number) => void
+  onAddAnswered: (id: number) => void
   onMatchResult: (pct: number | null) => void
   onUpdateFavoriteAccuStat: (id: number, pct: number) => void
 }
@@ -29,7 +29,7 @@ const Home = forwardRef<HTMLInputElement, HomeProps>(function Home({
   onToggleFavorite,
   onToggleLearned,
   onAddViewed,
-  onAddGuessed,
+  onAddAnswered,
   onMatchResult,
   onUpdateFavoriteAccuStat,
 }, ref) {
@@ -169,7 +169,7 @@ const Home = forwardRef<HTMLInputElement, HomeProps>(function Home({
   }, [])
 
   const handleCorrect = useCallback(() => {
-    if (currentWord) onAddGuessed(currentWord.id)
+    if (currentWord) onAddAnswered(currentWord.id)
     setIsFlipped(true)
     setWrongAttempts(0)
 
@@ -178,7 +178,7 @@ const Home = forwardRef<HTMLInputElement, HomeProps>(function Home({
     }
 
     clearAutoLearnTimer()
-    if (settings.autoAddGuessedToLearned && currentWord && !learnedIds.has(currentWord.id)) {
+    if (settings.autoAddAnsweredToLearned && currentWord && !learnedIds.has(currentWord.id)) {
       const id = currentWord.id
       autoLearnTimerRef.current = setTimeout(() => {
         autoLearnTimerRef.current = null
@@ -191,7 +191,7 @@ const Home = forwardRef<HTMLInputElement, HomeProps>(function Home({
         }
       }, 2000)
     }
-  }, [currentWord, onAddGuessed, clearAutoLearnTimer, settings.autoAddGuessedToLearned, learnedIds, onToggleLearned, settings.autoAdvanceOnLearn, setFlyAnim, settings.phrasebookMode, favoriteIds, matchPct, onUpdateFavoriteAccuStat])
+  }, [currentWord, onAddAnswered, clearAutoLearnTimer, settings.autoAddAnsweredToLearned, learnedIds, onToggleLearned, settings.autoAdvanceOnLearn, setFlyAnim, settings.phrasebookMode, favoriteIds, matchPct, onUpdateFavoriteAccuStat])
 
   const handleWrongAttempt = useCallback(() => {
     setWrongAttempts((p) => p + 1)

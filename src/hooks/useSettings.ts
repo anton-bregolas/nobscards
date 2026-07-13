@@ -5,7 +5,7 @@ import { useLocalStorage } from './useLocalStorage'
 const defaultSettings: AppSettings = {
   autoFlipOnWrong: false,
   autoAdvanceOnLearn: false,
-  autoAddGuessedToLearned: false,
+  autoAddAnsweredToLearned: false,
   phrasebookMode: false,
   phrasebookThreshold: 75,
   useAltInputLang: false,

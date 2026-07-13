@@ -4,5 +4,6 @@ node_modules
 dist/
 *.log
 .DS_Store
+.stylelintrc.json
 build_dict.py
 AGENTS.md

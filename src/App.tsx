@@ -18,11 +18,11 @@ const CUSTOM_DICT_NAME_KEY = 'cardsCustomDictName'
 
 const FROMTO_FAV = 'fromToFavorites'
 const FROMTO_LRN = 'fromToLearned'
-const FROMTO_GUE = 'fromToGuessed'
+const FROMTO_ANS = 'fromToAnswered'
 const FROMTO_VIW = 'fromToViewed'
 const TOFROM_FAV = 'toFromFavorites'
 const TOFROM_LRN = 'toFromLearned'
-const TOFROM_GUE = 'toFromGuessed'
+const TOFROM_ANS = 'toFromAnswered'
 const TOFROM_VIW = 'toFromViewed'
 
 function getToday(): string {
@@ -49,12 +49,12 @@ function App() {
 
   const [fromToFavorites, setFromToFavorites] = useModeStorage<StoredWord[]>(FROMTO_FAV, [])
   const [fromToLearned, setFromToLearned] = useModeStorage<StoredWord[]>(FROMTO_LRN, [])
-  const [fromToGuessed, setFromToGuessed] = useModeStorage<number[]>(FROMTO_GUE, [])
+  const [fromToAnswered, setFromToAnswered] = useModeStorage<number[]>(FROMTO_ANS, [])
   const [fromToViewed, setFromToViewed] = useModeStorage<number[]>(FROMTO_VIW, [])
 
   const [toFromFavorites, setToFromFavorites] = useModeStorage<StoredWord[]>(TOFROM_FAV, [])
   const [toFromLearned, setToFromLearned] = useModeStorage<StoredWord[]>(TOFROM_LRN, [])
-  const [toFromGuessed, setToFromGuessed] = useModeStorage<number[]>(TOFROM_GUE, [])
+  const [toFromAnswered, setToFromAnswered] = useModeStorage<number[]>(TOFROM_ANS, [])
   const [toFromViewed, setToFromViewed] = useModeStorage<number[]>(TOFROM_VIW, [])
 
   const pb = settings.phrasebookMode
@@ -63,8 +63,8 @@ function App() {
   const setFavorites = pb ? setToFromFavorites : setFromToFavorites
   const learned = pb ? toFromLearned : fromToLearned
   const setLearned = pb ? setToFromLearned : setFromToLearned
-  const guessed = pb ? toFromGuessed : fromToGuessed
-  const setGuessed = pb ? setToFromGuessed : setFromToGuessed
+  const answered = pb ? toFromAnswered : fromToAnswered
+  const setAnswered = pb ? setToFromAnswered : setFromToAnswered
   const viewed = pb ? toFromViewed : fromToViewed
   const setViewed = pb ? setToFromViewed : setFromToViewed
 
@@ -157,9 +157,9 @@ function App() {
     setViewed((prev) => (prev.includes(id) ? prev : [...prev, id]))
   }, [setViewed])
 
-  const handleAddGuessed = useCallback((id: number) => {
-    setGuessed((prev) => (prev.includes(id) ? prev : [...prev, id]))
-  }, [setGuessed])
+  const handleAddAnswered = useCallback((id: number) => {
+    setAnswered((prev) => (prev.includes(id) ? prev : [...prev, id]))
+  }, [setAnswered])
 
   const handleToggleFavorite = useCallback((id: number) => {
     const isAlreadyFavorite = favorites.some((f) => f.id === id)
@@ -210,11 +210,11 @@ function App() {
   const handleReset = useCallback(() => {
     setFromToFavorites([])
     setFromToLearned([])
-    setFromToGuessed([])
+    setFromToAnswered([])
     setFromToViewed([])
     setToFromFavorites([])
     setToFromLearned([])
-    setToFromGuessed([])
+    setToFromAnswered([])
     setToFromViewed([])
     const hasCustom = localStorage.getItem(CUSTOM_DICT_KEY) !== null
     if (hasCustom) {
@@ -229,7 +229,7 @@ function App() {
     setSettings({
       autoFlipOnWrong: false,
       autoAdvanceOnLearn: false,
-      autoAddGuessedToLearned: false,
+      autoAddAnsweredToLearned: false,
       phrasebookMode: false,
       phrasebookThreshold: 75,
       useAltInputLang: false,
@@ -245,11 +245,11 @@ function App() {
       version: 1,
       fromToFavorites,
       fromToLearned,
-      fromToGuessed,
+      fromToAnswered,
       fromToViewed,
       toFromFavorites,
       toFromLearned,
-      toFromGuessed,
+      toFromAnswered,
       toFromViewed,
     }
     const date = new Date().toISOString().slice(0, 10).replace(/-/g, '')
@@ -260,16 +260,16 @@ function App() {
     a.download = `nobscards-${date}-${dictionaryId}.json`
     a.click()
     URL.revokeObjectURL(url)
-  }, [dictionaryId, fromToFavorites, fromToLearned, fromToGuessed, fromToViewed, toFromFavorites, toFromLearned, toFromGuessed, toFromViewed])
+  }, [dictionaryId, fromToFavorites, fromToLearned, fromToAnswered, fromToViewed, toFromFavorites, toFromLearned, toFromAnswered, toFromViewed])
 
   const handleImportData = useCallback((data: ExportedData) => {
     setFromToFavorites(Array.isArray(data.fromToFavorites) ? data.fromToFavorites : [])
     setFromToLearned(Array.isArray(data.fromToLearned) ? data.fromToLearned : [])
-    setFromToGuessed(Array.isArray(data.fromToGuessed) ? data.fromToGuessed : [])
+    setFromToAnswered(Array.isArray(data.fromToAnswered) ? data.fromToAnswered : [])
     setFromToViewed(Array.isArray(data.fromToViewed) ? data.fromToViewed : [])
     setToFromFavorites(Array.isArray(data.toFromFavorites) ? data.toFromFavorites : [])
     setToFromLearned(Array.isArray(data.toFromLearned) ? data.toFromLearned : [])
-    setToFromGuessed(Array.isArray(data.toFromGuessed) ? data.toFromGuessed : [])
+    setToFromAnswered(Array.isArray(data.toFromAnswered) ? data.toFromAnswered : [])
     setToFromViewed(Array.isArray(data.toFromViewed) ? data.toFromViewed : [])
     setResetKey((k) => k + 1)
   }, [])
@@ -305,11 +305,11 @@ function App() {
     }
     setFromToFavorites([])
     setFromToLearned([])
-    setFromToGuessed([])
+    setFromToAnswered([])
     setFromToViewed([])
     setToFromFavorites([])
     setToFromLearned([])
-    setToFromGuessed([])
+    setToFromAnswered([])
     setToFromViewed([])
     setResetKey((k) => k + 1)
   }, [setSettings])
@@ -341,7 +341,7 @@ function App() {
             onToggleFavorite={handleToggleFavorite}
             onToggleLearned={handleToggleLearned}
             onAddViewed={handleAddViewed}
-            onAddGuessed={handleAddGuessed}
+            onAddAnswered={handleAddAnswered}
             onMatchResult={setMatchPct}
             onUpdateFavoriteAccuStat={handleUpdateFavoriteAccuStat}
           />
@@ -404,7 +404,7 @@ function App() {
         onNavigate={handleNavigate}
         learnedCount={learned.length}
         viewedCount={viewed.length}
-        guessedCount={guessed.length}
+        answeredCount={answered.length}
         totalWords={totalWords}
         matchPct={matchPct}
         phrasebookMode={settings.phrasebookMode}

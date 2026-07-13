@@ -788,7 +788,7 @@ const WordCard = forwardRef<HTMLDivElement, WordCardProps>(function WordCard({ w
               position: 'absolute',
               left: '50%',
               transform: 'translate(-50%, 50%)',
-              bottom: '16%',
+              top: '1%',
               border: '0.12rem solid var(--color-text)',
               width: '2.4rem',
               height: '2.4rem',

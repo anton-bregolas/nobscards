@@ -105,11 +105,11 @@ export default function Settings({
         if (
           !Array.isArray(raw.fromToFavorites) ||
           !Array.isArray(raw.fromToLearned) ||
-          !Array.isArray(raw.fromToGuessed) ||
+          !Array.isArray(raw.fromToAnswered) ||
           !Array.isArray(raw.fromToViewed) ||
           !Array.isArray(raw.toFromFavorites) ||
           !Array.isArray(raw.toFromLearned) ||
-          !Array.isArray(raw.toFromGuessed) ||
+          !Array.isArray(raw.toFromAnswered) ||
           !Array.isArray(raw.toFromViewed)
         ) {
           setImportError('Файл повреждён: отсутствуют обязательные поля данных.')
@@ -206,11 +206,11 @@ export default function Settings({
       <label className="flex items-start gap-3 cursor-pointer group">
         <input
           type="checkbox"
-          checked={settings.autoAddGuessedToLearned}
+          checked={settings.autoAddAnsweredToLearned}
           onChange={() =>
             onUpdate({
               ...settings,
-              autoAddGuessedToLearned: !settings.autoAddGuessedToLearned,
+              autoAddAnsweredToLearned: !settings.autoAddAnsweredToLearned,
             })
           }
           className="mt-0.5"

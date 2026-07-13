@@ -22,7 +22,7 @@ export interface StoredWord {
 export interface AppSettings {
   autoFlipOnWrong: number | false
   autoAdvanceOnLearn: boolean
-  autoAddGuessedToLearned: boolean
+  autoAddAnsweredToLearned: boolean
   phrasebookMode: boolean
   phrasebookThreshold: number
   useAltInputLang: boolean
@@ -35,10 +35,10 @@ export interface ExportedData {
   version: number
   fromToFavorites: StoredWord[]
   fromToLearned: StoredWord[]
-  fromToGuessed: number[]
+  fromToAnswered: number[]
   fromToViewed: number[]
   toFromFavorites: StoredWord[]
   toFromLearned: StoredWord[]
-  toFromGuessed: number[]
+  toFromAnswered: number[]
   toFromViewed: number[]
 }

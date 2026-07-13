@@ -5,14 +5,14 @@ interface BottomBarProps {
   view: View
   onNavigate: (view: View) => void
   viewedCount: number
-  guessedCount: number
+  answeredCount: number
   learnedCount: number
   totalWords: number
   matchPct: number | null
   phrasebookMode: boolean
 }
 
-export default function BottomBar({ view, onNavigate, viewedCount, guessedCount, learnedCount, totalWords, matchPct, phrasebookMode }: BottomBarProps) {
+export default function BottomBar({ view, onNavigate, viewedCount, answeredCount, learnedCount, totalWords, matchPct, phrasebookMode }: BottomBarProps) {
   const [pctVisible, setPctVisible] = useState(false)
   const [pctColor, setPctColor] = useState('')
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -74,7 +74,7 @@ export default function BottomBar({ view, onNavigate, viewedCount, guessedCount,
         {view === 'home' && (
           <>
             <span className="text-xs text-text/60 hidden sm:smh:inline">{viewedCount} / {totalWords} показано</span>
-            <span className="text-xs text-text/60 hidden sm:smh:inline">{guessedCount} / {totalWords} разгадано</span>
+            <span className="text-xs text-text/60 hidden sm:smh:inline">{answeredCount} / {totalWords} отвечено</span>
             <span className="text-xs text-text/60 hidden smh:inline">{learnedCount} / {totalWords} выучено</span>
           </>
         )}
