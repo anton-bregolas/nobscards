@@ -31,7 +31,7 @@ export default function Settings({
   const [importSuccess, setImportSuccess] = useState('')
   const [pendingDict, setPendingDict] = useState<{ words: Word[]; meta?: DictMeta } | null>(null)
   const [pendingDictFileName, setPendingDictFileName] = useState('')
-  const [dictFileName, setDictFileName] = useState(initialDictName ?? 'words-srp-rus-1000')
+  const [dictFileName, setDictFileName] = useState(initialDictName ?? 'words-srp-rus-1200')
   const prevDictIdRef = useRef(dictionaryId)
   const prevDictNameRef = useRef(initialDictName)
   const importRef = useRef<HTMLInputElement>(null)
@@ -45,10 +45,10 @@ export default function Settings({
   useEffect(() => {
     if (prevDictIdRef.current !== dictionaryId) {
       prevDictIdRef.current = dictionaryId
-      setDictFileName(initialDictName ?? 'words-srp-rus-1000')
+      setDictFileName(initialDictName ?? 'words-srp-rus-1200')
     } else if (prevDictNameRef.current !== initialDictName) {
       prevDictNameRef.current = initialDictName
-      setDictFileName(initialDictName ?? 'words-srp-rus-1000')
+      setDictFileName(initialDictName ?? 'words-srp-rus-1200')
     }
   }, [dictionaryId, initialDictName])
 
