@@ -143,6 +143,16 @@ input[type="checkbox"]:focus-visible {
   outline-offset: 2px;
 }
 
+input[name="language"] {
+  appearance: none;
+}
+
+.lang-setting:has(input[name="language"]:focus-visible){
+  outline: 0.2rem solid var(--color-accent);
+  outline-offset: -0.2rem;
+  border-radius: var(--radius-lg);
+}
+
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }

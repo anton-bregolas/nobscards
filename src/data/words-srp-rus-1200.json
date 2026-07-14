@@ -3875,7 +3875,7 @@
     "srpCyrl": "рећи",
     "srpLatn": "reći",
     "rus": ["сказать", "говорить"],
-    "eng": ["to say"]
+    "eng": ["to say", "to tell"]
   },
   {
     "id": 554,
@@ -6083,6 +6083,13 @@
     "eng": ["unfair"]
   },
   {
+    "id": 869,
+    "srpCyrl": "",
+    "srpLatn": "",
+    "rus": [""],
+    "eng": [""]
+  },
+  {
     "id": 870,
     "srpCyrl": "учтив",
     "srpLatn": "učtiv",
@@ -6130,6 +6137,13 @@
     "srpLatn": "oštro",
     "rus": ["остро"],
     "eng": ["sharply"]
+  },
+  {
+    "id": 877,
+    "srpCyrl": "",
+    "srpLatn": "",
+    "rus": [""],
+    "eng": [""]
   },
   {
     "id": 878,
@@ -7008,10 +7022,10 @@
   },
   {
     "id": 1003,
-    "srpCyrl": "рећи",
-    "srpLatn": "reći",
-    "rus": ["сказать", "говорить"],
-    "eng": ["to say", "to tell"]
+    "srpCyrl": "",
+    "srpLatn": "",
+    "rus": ["", ""],
+    "eng": ["", ""]
   },
   {
     "id": 1004,
@@ -7183,10 +7197,10 @@
   },
   {
     "id": 1028,
-    "srpCyrl": "чути",
-    "srpLatn": "čuti",
-    "rus": ["услышать", "слышать"],
-    "eng": ["to hear"]
+    "srpCyrl": "",
+    "srpLatn": "",
+    "rus": ["", ""],
+    "eng": [""]
   },
   {
     "id": 1029,

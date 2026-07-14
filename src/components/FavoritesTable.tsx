@@ -1,5 +1,6 @@
 import { useState, useMemo, useRef, useEffect, useCallback, useLayoutEffect } from 'react'
 import type { StoredWord, Word, DictMeta } from '../types'
+import { useTranslation } from '../i18n'
 
 interface FavoritesTableProps {
   favorites: StoredWord[]
@@ -36,6 +37,7 @@ function firstText(v: string | string[] | number | null | undefined): string {
 }
 
 export default function FavoritesTable({ favorites, words, dictMeta, onToggleFavorite, phrasebookMode, useAltInputLang, useRefLangForLabels, sortTablesBy, onSortTablesBy }: FavoritesTableProps) {
+  const { t } = useTranslation()
   const availableKeys = phrasebookMode ? (['acc', 'word', 'date'] as SortKey[]) : (['date', 'word'] as SortKey[])
   const [sortKey, sortDir] = useMemo(() => {
     for (const e of sortTablesBy) {
@@ -112,22 +114,22 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
 
   const handleSort = useCallback((key: SortKey) => {
     const defaultDir: SortDir = key === 'date' ? 'desc' : 'asc'
-    const dirLabels: Record<SortKey, Record<SortDir, string>> = {
-      word: { asc: 'по алфавиту, от А до Я', desc: 'по алфавиту, от Я до А' },
-      acc: { asc: 'по точности, от меньшего к большему', desc: 'по точности, от большего к меньшему' },
-      date: { asc: 'по дате, от ранних к поздним', desc: 'по дате, от поздних к ранним' },
+    const dirKeys: Record<SortKey, Record<SortDir, string>> = {
+      word: { asc: 'sort.alphaAz', desc: 'sort.alphaZa' },
+      acc: { asc: 'sort.accAsc', desc: 'sort.accDesc' },
+      date: { asc: 'sort.dateAsc', desc: 'sort.dateDesc' },
     }
     if (key === sortKey) {
       const next: SortDir = sortDir === 'asc' ? 'desc' : 'asc'
       const entry = `${key}_${next}`
       onSortTablesBy([entry, ...sortTablesBy.filter(e => parseSortEntry(e)[0] !== key)])
-      setSortAnnouncement(`Сортировка изменена: ${dirLabels[key][next]}`)
+      setSortAnnouncement(t('sort.changed', { label: t(dirKeys[key][next] as 'sort.alphaAz') }))
     } else {
       const entry = `${key}_${defaultDir}`
       onSortTablesBy([entry, ...sortTablesBy.filter(e => parseSortEntry(e)[0] !== key)])
-      setSortAnnouncement(`Сортировка изменена: ${dirLabels[key][defaultDir]}`)
+      setSortAnnouncement(t('sort.changed', { label: t(dirKeys[key][defaultDir] as 'sort.alphaAz') }))
     }
-  }, [sortKey, sortDir, sortTablesBy, onSortTablesBy])
+  }, [sortKey, sortDir, sortTablesBy, onSortTablesBy, t])
 
   const moveTo = useCallback((row: number, col: number): boolean => {
     const el = tableRef.current?.querySelector<HTMLElement>(
@@ -224,7 +226,7 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
     return (
       <div className="flex flex-col items-center justify-center gap-4 py-16 text-text opacity-60">
         <i className="bi bi-star text-6xl" />
-        <p className="text-lg">В избранном пока нет слов</p>
+        <p className="text-lg">{t('favorites.empty')}</p>
       </div>
     )
   }
@@ -482,8 +484,8 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
               data-col={wordColIdx}
               aria-colindex={wordColIdx + 1}
               aria-sort={sortKey === 'word' ? (sortDir === 'asc' ? 'ascending' : 'descending') : 'none'}
-              title={`Сортировать по алфавиту. Нажмите на ячейку слова, чтобы увидеть перевод`}
-              aria-label={`Сортировать по алфавиту. Нажмите на ячейку слова, чтобы увидеть перевод`}
+              title={t('sort.wordHeader')}
+              aria-label={t('sort.wordHeader')}
               onClick={() => handleSort('word')}
             >
               {wordLabel} {sortIcon('word')}
@@ -494,8 +496,8 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
               data-row="0"
               data-col={wikiColIdx}
               aria-colindex={wikiColIdx + 1}
-              title="Открыть страницу слова на Wiktionary"
-              aria-label="Открыть страницу слова на Wiktionary"
+              title={t('sort.wikiHeader')}
+              aria-label={t('sort.wikiHeader')}
             >
               <i className="bi bi-wikipedia" />
             </th>
@@ -506,8 +508,8 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
               data-col={phrasebookMode ? accColIdx : dateColIdx}
               aria-colindex={(phrasebookMode ? accColIdx : dateColIdx) + 1}
               aria-sort={sortKey === (phrasebookMode ? 'acc' : 'date') ? (sortDir === 'asc' ? 'ascending' : 'descending') : 'none'}
-              title={phrasebookMode ? 'Сортировать по точности последнего ввода' : 'Сортировать по дате добавления'}
-              aria-label={phrasebookMode ? 'Сортировать по точности последнего ввода' : 'Сортировать по дате добавления'}
+              title={phrasebookMode ? t('sort.accHeader') : t('sort.dateHeader')}
+              aria-label={phrasebookMode ? t('sort.accHeader') : t('sort.dateHeader')}
               onClick={() => phrasebookMode ? handleSort('acc') : handleSort('date')}
             >
               {phrasebookMode ? <><i className="bi bi-bullseye" /> {sortIcon('acc')}</> : <><i className="bi bi-calendar3" /> {sortIcon('date')}</>}
@@ -520,8 +522,8 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
                 data-col={dateColIdx}
                 aria-colindex={dateColIdx + 1}
                 aria-sort={sortKey === 'date' ? (sortDir === 'asc' ? 'ascending' : 'descending') : 'none'}
-                title="Сортировать по дате добавления"
-                aria-label="Сортировать по дате добавления"
+                title={t('sort.dateHeader')}
+                aria-label={t('sort.dateHeader')}
                 onClick={() => handleSort('date')}
               >
                 <i className="bi bi-calendar3" /> {sortIcon('date')}
@@ -533,8 +535,8 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
               data-row="0"
               data-col={removeColIdx}
               aria-colindex={removeColIdx + 1}
-              title="Удалить из списка"
-              aria-label="Удалить из списка"
+              title={t('sort.removeHeader')}
+              aria-label={t('sort.removeHeader')}
             >
               <i className="bi bi-trash" />
             </th>
@@ -612,9 +614,9 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
                     if (isWordsType && !phrasebookMode) {
                       return <span>{useRefLangForLabels ? displayText(w[dictMeta.langRef]) : displayText(w[dictMeta.langFrom])}</span>
                     } else if (isWordsType && phrasebookMode) {
-                      return <span>{(useRefLangForLabels && dictMeta.langToAlt && w[dictMeta.langToAlt] != null) ? displayText(w[dictMeta.langToAlt]) : displayText(w[dictMeta.langTo])}</span>
+                      return <span>{(useRefLangForLabels && dictMeta.langToAlt && w[dictMeta.langToAlt] != null) ? firstText(w[dictMeta.langToAlt]) : firstText(w[dictMeta.langTo])}</span>
                     } else if (!isWordsType && phrasebookMode) {
-                      return <span>{useRefLangForLabels ? displayText(w[dictMeta.langRef]) : displayText(w[dictMeta.langFrom])}</span>
+                      return <span>{useRefLangForLabels ? firstText(w[dictMeta.langRef]) : firstText(w[dictMeta.langFrom])}</span>
                     } else {
                       return <span>{(useRefLangForLabels && dictMeta.langToAlt && w[dictMeta.langToAlt] != null) ? firstText(w[dictMeta.langToAlt]) : firstText(w[dictMeta.langTo])}</span>
                     }
@@ -633,8 +635,8 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
                       target="_blank"
                       rel="noopener noreferrer"
                       tabIndex={-1}
-                      title="Страница слова на Wiktionary"
-                      aria-label="Страница слова на Wiktionary"
+                      title={t('card.wikiPage')}
+                      aria-label={t('card.wikiPage')}
                       onMouseDown={(e) => e.preventDefault()}
                       className="inline-block w-6 h-6 text-center leading-6 rounded-full text-text opacity-60 hover:opacity-100 hover:text-accent focus-visible:opacity-100 focus-visible:text-accent transition-all duration-200 focus-ring focus-circle"
                     >
@@ -677,8 +679,8 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
                       onToggleFavorite(item.id)
                     }}
                     className="inline-flex items-center justify-center w-6 h-6 rounded-full text-text opacity-50 hover:text-error hover:opacity-100 focus-visible:text-error focus-visible:opacity-100 transition-all duration-200 focus-ring focus-circle"
-                    title="Убрать из избранного"
-                    aria-label="Убрать из избранного"
+                    title={t('favorites.remove')}
+                    aria-label={t('favorites.remove')}
                   >
                     <i className="bi bi-x-lg text-sm" />
                   </button>

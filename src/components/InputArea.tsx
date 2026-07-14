@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback, useEffect, forwardRef, useImperativeHandle } from 'react'
 import type { Word, AppSettings, DictMeta } from '../types'
+import { useTranslation } from '../i18n'
 import { bestMatch } from '../utils/compare'
 import Confetti from './Confetti'
 
@@ -26,6 +27,7 @@ const InputArea = forwardRef<HTMLInputElement, InputAreaProps>(function InputAre
   clearKey,
   onMatchResult,
 }, ref) {
+  const { t } = useTranslation()
   const [inputValue, setInputValue] = useState('')
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null)
   const [shake, setShake] = useState(false)
@@ -163,7 +165,8 @@ const InputArea = forwardRef<HTMLInputElement, InputAreaProps>(function InputAre
     ? (settings.useAltInputLang && dictMeta.langToAlt ? dictMeta.langToAlt : dictMeta.langTo)
     : (settings.useAltInputLang && dictMeta.langRef ? dictMeta.langRef : dictMeta.langFrom)
 
-  const placeholder = `Введите перевод (${inputLangKey})`
+  const langLabel = inputLangKey.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+  const placeholder = t('input.placeholder', { lang: langLabel })
 
   return (
     <>
@@ -184,8 +187,8 @@ const InputArea = forwardRef<HTMLInputElement, InputAreaProps>(function InputAre
             className={`ml-0.5 w-12 h-12 rounded-full flex items-center justify-center shrink-0 focus-ring focus-circle transition-colors duration-200 ${
               inputValue ? 'text-text/40 hover:text-text' : 'invisible'
             }`}
-            title="Очистить"
-            aria-label="Очистить поле ввода"
+            title={t('input.clearLabel')}
+            aria-label={t('input.clearLabel')}
           >
             <i className="bi bi-x-lg text-sm" />
           </button>
@@ -206,8 +209,8 @@ const InputArea = forwardRef<HTMLInputElement, InputAreaProps>(function InputAre
           onClick={handleSubmit}
           disabled={!word || !inputValue.trim() || inputDisabled}
           className="mr-0.5 w-12 h-12 rounded-full bg-accent text-bg flex items-center justify-center text-xl transition-all duration-200 hover:bg-accent/80 focus-visible:bg-accent/80 disabled:opacity-40 disabled:cursor-not-allowed shrink-0 focus-ring focus-circle"
-          title="Проверить перевод"
-          aria-label="Проверить перевод"
+          title={t('input.check')}
+          aria-label={t('input.check')}
         >
           <i className="bi bi-arrow-right" />
         </button>

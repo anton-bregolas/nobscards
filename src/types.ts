@@ -28,6 +28,7 @@ export interface AppSettings {
   useAltInputLang: boolean
   useRefLangForLabels: boolean
   sortTablesBy: string[]
+  language: string
 }
 
 export interface ExportedData {

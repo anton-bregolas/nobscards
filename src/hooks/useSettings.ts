@@ -11,6 +11,7 @@ const defaultSettings: AppSettings = {
   useAltInputLang: false,
   useRefLangForLabels: false,
   sortTablesBy: ['date_desc'],
+  language: 'ru',
 }
 
 export function useSettings() {

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, forwardRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import type { Word, AppSettings, DictMeta } from '../types'
+import { useTranslation } from '../i18n'
 
 interface WordCardProps {
   word: Word
@@ -46,6 +47,7 @@ function firstText(v: string | string[] | number | null | undefined): string {
 }
 
 const WordCard = forwardRef<HTMLDivElement, WordCardProps>(function WordCard({ word, dictMeta, isFlipped, onFlip, settings, flyAnim, onFlyDone, onSwipeNext, onSwipeFavorite, onSwipeLearned, matchPct }, ref) {
+  const { t } = useTranslation()
   const perspectiveRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const [ghost, setGhost] = useState<{ rect: DOMRect; target: 'favorite' | 'learned' } | null>(null)
@@ -596,11 +598,11 @@ const WordCard = forwardRef<HTMLDivElement, WordCardProps>(function WordCard({ w
                       </span>
                     ))}
                   </div>
-                  {fa.showAccuracy && fa.matchPct != null && (
-                    <span className={`inline-flex items-center gap-1 text-sm font-mono ${fa.matchPct < 50 ? 'text-error' : fa.matchPct < 80 ? 'text-caret' : 'text-accent'} opacity-90`}>
-                      Совпадение: {fa.matchPct}%
-                    </span>
-                  )}
+                      {fa.showAccuracy && fa.matchPct != null && (
+                        <span className={`inline-flex items-center gap-1 text-sm font-mono ${fa.matchPct < 50 ? 'text-error' : fa.matchPct < 80 ? 'text-caret' : 'text-accent'} opacity-90`}>
+                          {t('card.match', { pct: fa.matchPct })}
+                        </span>
+                      )}
                   {fa.wikiUrl && (
                     <span className="inline-flex items-center gap-1 text-sm text-text opacity-60">
                       <i className="bi bi-wikipedia text-xl" />
@@ -636,7 +638,7 @@ const WordCard = forwardRef<HTMLDivElement, WordCardProps>(function WordCard({ w
             handleClick()
           }
         }}
-        aria-label={isFlipped ? 'Карточка с переводом' : 'Нажмите, чтобы увидеть перевод'}
+        aria-label={isFlipped ? t('card.translationHint') : t('card.tapToReveal')}
       >
         {!isFlipped ? (
           <div className="text-center animate-fade-in-down" key="front">
@@ -745,11 +747,11 @@ const WordCard = forwardRef<HTMLDivElement, WordCardProps>(function WordCard({ w
               <span
                 data-info="accustat"
                 className={`inline-flex items-center gap-1 text-sm font-mono ${matchPct < 50 ? 'text-error' : matchPct < 80 ? 'text-caret' : 'text-accent'} opacity-90`}
-                onPointerDown={() => startLongPress(`Совпадение: ${matchPct}%`)}
+                onPointerDown={() => startLongPress(t('card.match', { pct: matchPct }))}
                 onPointerUp={clearLongPress}
                 onPointerLeave={clearLongPress}
               >
-                Совпадение: {matchPct}%
+                {t('card.match', { pct: matchPct })}
               </span>
             )}
             {wikiUrl && (
@@ -758,8 +760,8 @@ const WordCard = forwardRef<HTMLDivElement, WordCardProps>(function WordCard({ w
                 href={wikiUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                title="Страница слова на Wiktionary"
-                aria-label="Страница слова на Wiktionary"
+                title={t('card.wikiPage')}
+                aria-label={t('card.wikiPage')}
                 className="inline-flex items-center gap-1 text-sm text-text opacity-60 hover:opacity-100 hover:text-accent focus-visible:opacity-100 focus-visible:text-accent transition-all duration-200 focus-ring rounded-[0.2rem]"
                 onClick={(e) => e.stopPropagation()}
                 onPointerDown={() => startLongPress(wikiUrl)}
@@ -801,8 +803,8 @@ const WordCard = forwardRef<HTMLDivElement, WordCardProps>(function WordCard({ w
                 ? 'opacity 500ms ease-in-out'
                 : 'opacity 200ms ease-in-out',
             }}
-            aria-label="Показать альтернативный текст"
-            title="Показать альтернативный текст"
+            aria-label={t('card.showAlt')}
+            title={t('card.showAlt')}
           >
             <i className="bi bi-translate text-lg" />
           </button>
@@ -816,7 +818,7 @@ const WordCard = forwardRef<HTMLDivElement, WordCardProps>(function WordCard({ w
         }`}
       >
         <span className="inline-block bg-subhead-alt text-text px-4 py-3 rounded-xl text-md font-sans">
-          Скопировано
+          {t('card.copied')}
         </span>
       </div>,
       document.body

@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import type { AppSettings, ExportedData, Word, DictMeta } from '../types'
+import { useTranslation, APP_LANGUAGES } from '../i18n'
 
 interface SettingsProps {
   settings: AppSettings
@@ -27,6 +28,7 @@ export default function Settings({
   const [pendingWrong, setPendingWrong] = useState(
     typeof settings.autoFlipOnWrong === 'number' ? settings.autoFlipOnWrong : 3,
   )
+  const { t } = useTranslation()
   const [importError, setImportError] = useState('')
   const [importSuccess, setImportSuccess] = useState('')
   const [pendingDict, setPendingDict] = useState<{ words: Word[]; meta?: DictMeta } | null>(null)
@@ -98,7 +100,7 @@ export default function Settings({
       try {
         const raw = JSON.parse(e.target!.result as string) as ExportedData
         if (raw.dictId !== dictionaryId) {
-          setImportError('Идентификатор словаря не совпадает. Загруженные данные относятся к другому словарю.')
+          setImportError(t('error.dictIdMismatch'))
           showPopover(errorPopover.current)
           return
         }
@@ -112,15 +114,15 @@ export default function Settings({
           !Array.isArray(raw.toFromAnswered) ||
           !Array.isArray(raw.toFromViewed)
         ) {
-          setImportError('Файл повреждён: отсутствуют обязательные поля данных.')
+          setImportError(t('error.fileCorrupted'))
           showPopover(errorPopover.current)
           return
         }
         onImportData(raw)
-        setImportSuccess('Данные успешно восстановлены!')
+        setImportSuccess(t('error.importSuccess'))
         showPopover(importSuccessPopover.current)
       } catch {
-        setImportError('Не удалось прочитать файл. Проверьте формат.')
+        setImportError(t('error.readFailed'))
         showPopover(errorPopover.current)
       }
     }
@@ -134,7 +136,7 @@ export default function Settings({
       try {
         const raw = JSON.parse(e.target!.result as string) as unknown[]
         if (!Array.isArray(raw) || raw.length === 0) {
-          setImportError('Файл не является словарём. Ожидается массив слов.')
+          setImportError(t('error.notDictArray'))
           showPopover(errorPopover.current)
           return
         }
@@ -146,7 +148,7 @@ export default function Settings({
           const meta = first as unknown as DictMeta
           const wordData = raw.slice(1) as Record<string, unknown>[]
           if (wordData.length === 0 || typeof wordData[0].id !== 'number') {
-            setImportError('Файл не является словарём. Ожидается массив слов с метаданными.')
+            setImportError(t('error.notDictWithMeta'))
             showPopover(errorPopover.current)
             return
           }
@@ -154,7 +156,7 @@ export default function Settings({
           setPendingDict({ words, meta })
           setPendingDictFileName(fileName)
         } else if (typeof first.id !== 'number') {
-          setImportError('Файл не является словарём. Ожидается массив слов.')
+          setImportError(t('error.notDictArray'))
           showPopover(errorPopover.current)
           return
         } else {
@@ -165,7 +167,7 @@ export default function Settings({
 
         showPopover(dictConfirmPopover.current)
       } catch {
-        setImportError('Не удалось прочитать файл. Проверьте формат.')
+        setImportError(t('error.readFailed'))
         showPopover(errorPopover.current)
       }
     }
@@ -184,7 +186,33 @@ export default function Settings({
 
   return (
     <section className="w-full mx-auto space-y-6 max-sm:max-w-[70%] sm:max-w-md">
-      <h2 className="text-xl font-semibold text-subhead text-center">Настройки</h2>
+      <h2 className="text-xl font-semibold text-subhead text-center">{t('settings.title')}</h2>
+
+      <fieldset className="space-y-2">
+        <legend className="text-sm text-text">{t('settings.language')}</legend>
+        <div className="lang-setting flex border border-text/20 rounded-lg overflow-hidden opacity-90">
+          {Object.entries(APP_LANGUAGES).map(([code, name]) => (
+            <label
+              key={code}
+              className={`flex-1 px-3 py-1.5 text-sm text-center cursor-pointer transition-colors duration-200 ${
+                settings.language === code
+                  ? 'bg-accent text-bg font-medium'
+                  : 'text-subhead hover:bg-subhead/20'
+              }`}
+            >
+              <input
+                type="radio"
+                name="language"
+                value={code}
+                checked={settings.language === code}
+                onChange={() => onUpdate({ ...settings, language: code })}
+                className="sr-only"
+              />
+              <span>{name}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
 
       <label className="flex items-start gap-3 cursor-pointer group pt-2">
         <input
@@ -199,7 +227,7 @@ export default function Settings({
           className="mt-0.5"
         />
         <span className="text-sm text-text leading-relaxed group-hover:text-accent group-focus-visible:text-accent transition-colors duration-150">
-          Автоматически сменять слово при добавлении в пройденные
+          {t('settings.autoAdvance')}
         </span>
       </label>
 
@@ -216,11 +244,11 @@ export default function Settings({
           className="mt-0.5"
         />
         <span className="text-sm text-text leading-relaxed group-hover:text-accent group-focus-visible:text-accent transition-colors duration-150">
-          Автоматически добавлять разгаданные слова в пройденные
+          {t('settings.autoAddAnswered')}
         </span>
       </label>
 
-      <div className="space-y-3" role="group" aria-label="Автопоказ карточки после неправильных попыток" onKeyDown={handleStepperKeyDown}>
+      <div className="space-y-3" role="group" aria-label={t('settings.autoFlipGroup')} onKeyDown={handleStepperKeyDown}>
         <label className="flex items-start gap-3 cursor-pointer group">
           <input
             type="checkbox"
@@ -235,7 +263,7 @@ export default function Settings({
             data-stepper
           />
           <span className="text-sm text-text leading-relaxed group-hover:text-accent group-focus-visible:text-accent transition-colors duration-150">
-            Автоматически показывать карточку слова после...
+            {t('settings.autoFlip')}
           </span>
         </label>
         <div className="flex max-sm:flex-col max-sm:items-start sm:items-center gap-3 ml-8">
@@ -250,8 +278,8 @@ export default function Settings({
               tabIndex={-1}
               data-stepper
               className="w-8 h-8 shrink-0 rounded-full bg-subhead/20 text-subhead flex items-center justify-center text-lg transition-all duration-150 hover:bg-subhead/40 focus-visible:bg-subhead/40 disabled:opacity-30 disabled:cursor-not-allowed focus-ring focus-circle"
-              title="Уменьшить"
-              aria-label="Уменьшить"
+              title={t('settings.decrease')}
+              aria-label={t('settings.decrease')}
             >
               <i className="bi bi-dash" />
             </button>
@@ -286,17 +314,17 @@ export default function Settings({
               tabIndex={-1}
               data-stepper
               className="w-8 h-8 shrink-0 rounded-full bg-subhead/20 text-subhead flex items-center justify-center text-lg transition-all duration-150 hover:bg-subhead/40 focus-visible:bg-subhead/40 disabled:opacity-30 disabled:cursor-not-allowed focus-ring focus-circle"
-              title="Увеличить"
-              aria-label="Увеличить"
+              title={t('settings.increase')}
+              aria-label={t('settings.increase')}
             >
               <i className="bi bi-plus" />
             </button>
           </div>
-          <span className="text-sm text-text opacity-60">неправильных попыток</span>
+          <span className="text-sm text-text opacity-60">{t('settings.wrongAttempts')}</span>
         </div>
       </div>
 
-      <div className="space-y-3" role="group" aria-label="Порог совпадения разговорника" onKeyDown={handleStepperKeyDown}>
+      <div className="space-y-3" role="group" aria-label={t('settings.phrasebookGroup')} onKeyDown={handleStepperKeyDown}>
         <label className="flex items-start gap-3 cursor-pointer group">
           <input
             type="checkbox"
@@ -311,7 +339,7 @@ export default function Settings({
             data-stepper
           />
           <span className="text-sm text-text leading-relaxed group-hover:text-accent group-focus-visible:text-accent transition-colors duration-150">
-            Использовать режим разговорника с условием:
+            {t('settings.phrasebook')}
           </span>
         </label>
         <div className="flex max-sm:flex-col max-sm:items-start sm:items-center gap-3 ml-8">
@@ -325,8 +353,8 @@ export default function Settings({
               tabIndex={-1}
               data-stepper
               className="w-8 h-8 shrink-0 rounded-full bg-subhead/20 text-subhead flex items-center justify-center text-lg transition-all duration-150 hover:bg-subhead/40 focus-visible:bg-subhead/40 disabled:opacity-30 disabled:cursor-not-allowed focus-ring focus-circle"
-              title="Уменьшить"
-              aria-label="Уменьшить"
+              title={t('settings.decrease')}
+              aria-label={t('settings.decrease')}
             >
               <i className="bi bi-dash" />
             </button>
@@ -358,13 +386,13 @@ export default function Settings({
               tabIndex={-1}
               data-stepper
               className="w-8 h-8 shrink-0 rounded-full bg-subhead/20 text-subhead flex items-center justify-center text-lg transition-all duration-150 hover:bg-subhead/40 focus-visible:bg-subhead/40 disabled:opacity-30 disabled:cursor-not-allowed focus-ring focus-circle"
-              title="Увеличить"
-              aria-label="Увеличить"
+              title={t('settings.increase')}
+              aria-label={t('settings.increase')}
             >
               <i className="bi bi-plus" />
             </button>
           </div>
-          <span className="text-sm text-text opacity-60">% совпадения для засчитывания ответа</span>
+          <span className="text-sm text-text opacity-60">{t('settings.phrasebookThreshold')}</span>
         </div>
       </div>
 
@@ -381,7 +409,7 @@ export default function Settings({
           className="mt-0.5"
         />
         <span className="text-sm text-text leading-relaxed group-hover:text-accent group-focus-visible:text-accent transition-colors duration-150">
-          Использовать альтернативный язык ввода (при наличии)
+          {t('settings.useAltInput')}
         </span>
       </label>
 
@@ -398,7 +426,7 @@ export default function Settings({
           className="mt-0.5"
         />
         <span className="text-sm text-text leading-relaxed group-hover:text-accent group-focus-visible:text-accent transition-colors duration-150">
-          Использовать язык перевода в текстах заданий (при наличии)
+          {t('settings.useRefLang')}
         </span>
       </label>
 
@@ -409,7 +437,7 @@ export default function Settings({
           className="w-full px-4 py-2 rounded-lg border border-text/30 text-text text-sm transition-all duration-200 hover:border-accent hover:text-accent focus-visible:border-accent focus-visible:text-accent cursor-pointer"
         >
           <i className="bi bi-download mr-2" />
-          Сохранить пройденное
+          {t('settings.saveProgress')}
         </button>
 
         <button
@@ -417,7 +445,7 @@ export default function Settings({
           className="w-full px-4 py-2 rounded-lg border border-text/30 text-text text-sm transition-all duration-200 hover:border-accent hover:text-accent focus-visible:border-accent focus-visible:text-accent cursor-pointer"
         >
           <i className="bi bi-upload mr-2" />
-          Загрузить пройденное
+          {t('settings.loadProgress')}
         </button>
         <input
           ref={importRef}
@@ -436,7 +464,7 @@ export default function Settings({
           className="w-full px-4 py-2 rounded-lg border border-text/30 text-text text-sm transition-all duration-200 hover:border-caret hover:text-caret focus-visible:border-caret focus-visible:text-caret cursor-pointer"
         >
           <i className="bi bi-book mr-2" />
-          Сменить словарь
+          {t('settings.changeDict')}
         </button>
         <input
           ref={dictRef}
@@ -472,19 +500,19 @@ export default function Settings({
         popover="manual"
         className="rounded-xl bg-subhead-alt border border-text/20 outline outline-1 outline-subhead p-6 text-center fixed inset-0 m-auto w-80 h-fit"
       >
-        <p className="text-text text-sm mb-4">Сменить словарь?<br/>Все данные (избранное, пройденное, счётчики) будут сброшены.</p>
+        <p className="text-text text-sm mb-4">{t('dict.changeTitle')}<br/>{t('dict.changeDesc')}</p>
         <div className="flex gap-3 justify-center">
           <button
             onClick={confirmDictChange}
             className="px-4 py-1.5 rounded-lg bg-text/10 text-text text-sm transition-all duration-200 hover:bg-subhead hover:text-bg focus-visible:bg-subhead focus-visible:text-bg cursor-pointer"
           >
-            Сменить
+            {t('dict.changeConfirm')}
           </button>
           <button
             onClick={() => { setPendingDict(null); dictConfirmPopover.current?.hidePopover() }}
             className="px-4 py-1.5 rounded-lg bg-text/10 text-text text-sm transition-all duration-200 hover:bg-text/20 focus-visible:bg-text/20 cursor-pointer"
           >
-            Отмена
+            {t('dict.changeCancel')}
           </button>
         </div>
       </div>
@@ -494,14 +522,14 @@ export default function Settings({
           popoverTarget="reset-confirm"
           className="w-full px-4 py-2 rounded-lg border border-error/50 text-error text-sm transition-all duration-200 hover:bg-error/10 focus-visible:bg-error/10 cursor-pointer"
         >
-          Сбросить данные
+          {t('settings.resetData')}
         </button>
         <div
           id="reset-confirm"
           popover="auto"
           className="rounded-xl bg-subhead-alt border border-text/20 outline outline-1 outline-subhead p-6 text-center fixed inset-0 m-auto w-80 h-fit"
         >
-          <p className="text-text text-sm mb-4">Удалить все данные?<br/>Избранное, пройденное и счётчики будут очищены, а словарь сброшен.</p>
+          <p className="text-text text-sm mb-4">{t('dict.resetTitle')}<br/>{t('dict.resetDesc')}</p>
           <div className="flex gap-3 justify-center">
             <button
               onClick={onReset}
@@ -509,14 +537,14 @@ export default function Settings({
               popoverTargetAction="hide"
               className="px-4 py-1.5 rounded-lg bg-text/10 text-text text-sm transition-all duration-200 hover:bg-subhead hover:text-bg focus-visible:bg-subhead focus-visible:text-bg cursor-pointer"
             >
-              Сбросить
+              {t('dict.resetConfirm')}
             </button>
             <button
               popoverTarget="reset-confirm"
               popoverTargetAction="hide"
               className="px-4 py-1.5 rounded-lg bg-text/10 text-text text-sm transition-all duration-200 hover:bg-text/20 focus-visible:bg-text/20 cursor-pointer"
             >
-              Отмена
+              {t('dict.changeCancel')}
             </button>
           </div>
         </div>

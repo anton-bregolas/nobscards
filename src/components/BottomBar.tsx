@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import type { View } from '../types'
+import { useTranslation } from '../i18n'
 
 interface BottomBarProps {
   view: View
@@ -13,6 +14,7 @@ interface BottomBarProps {
 }
 
 export default function BottomBar({ view, onNavigate, viewedCount, answeredCount, learnedCount, totalWords, matchPct, phrasebookMode }: BottomBarProps) {
+  const { t } = useTranslation()
   const [pctVisible, setPctVisible] = useState(false)
   const [pctColor, setPctColor] = useState('')
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -46,8 +48,8 @@ export default function BottomBar({ view, onNavigate, viewedCount, answeredCount
   return (
     <footer className="fixed bottom-0 w-full pointer-events-none flex items-center justify-between px-2 py-3">
       <button
-        title="Настройки"
-        aria-label="Настройки"
+        title={t('nav.settings')}
+        aria-label={t('nav.settings')}
         onClick={() => onNavigate('settings')}
         className={`pointer-events-auto w-12 h-12 flex items-center justify-center text-2xl transition-colors duration-200 hover:text-accent focus-visible:text-accent shrink-0 focus-ring focus-circle ${
           view === 'settings' ? 'text-accent' : 'text-subhead'
@@ -68,20 +70,20 @@ export default function BottomBar({ view, onNavigate, viewedCount, answeredCount
             }}
             className={`text-xs text-center pointer-events-none transition-all duration-1000 ${pctColor}`}
           >
-            Совпадение: {matchPct}%
+            {t('stats.match', { pct: matchPct! })}
           </div>
         )}
         {view === 'home' && (
           <>
-            <span className="text-xs text-text/60 hidden sm:smh:inline">{viewedCount} / {totalWords} показано</span>
-            <span className="text-xs text-text/60 hidden sm:smh:inline">{answeredCount} / {totalWords} отвечено</span>
-            <span className="text-xs text-text/60 hidden smh:inline">{learnedCount} / {totalWords} выучено</span>
+            <span className="text-xs text-text/60 hidden sm:smh:inline">{t('stats.viewed', { viewed: viewedCount, total: totalWords })}</span>
+            <span className="text-xs text-text/60 hidden sm:smh:inline">{t('stats.answered', { answered: answeredCount, total: totalWords })}</span>
+            <span className="text-xs text-text/60 hidden smh:inline">{t('stats.learned', { learned: learnedCount, total: totalWords })}</span>
           </>
         )}
       </div>
       <button
-        title="Главный экран"
-        aria-label="Главный экран"
+        title={t('nav.home')}
+        aria-label={t('nav.home')}
         onClick={() => onNavigate('home')}
         className={`sm:hidden pointer-events-auto w-12 h-12 flex items-center justify-center text-2xl transition-colors duration-200 hover:text-accent focus-visible:text-accent shrink-0 focus-ring focus-circle ${
           view === 'home' ? 'text-accent' : 'text-subhead'
@@ -90,8 +92,8 @@ export default function BottomBar({ view, onNavigate, viewedCount, answeredCount
         <i className="bi bi-house-door-fill" />
       </button>
       <button
-        title="Пройденное"
-        aria-label="Пройденное"
+        title={t('nav.learned')}
+        aria-label={t('nav.learned')}
         onClick={() => onNavigate('learned')}
         className={`hidden sm:flex pointer-events-auto w-12 h-12 items-center justify-center text-2xl transition-colors duration-200 hover:text-accent focus-visible:text-accent shrink-0 focus-ring focus-circle ${
           view === 'learned' ? 'text-accent' : 'text-subhead'

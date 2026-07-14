@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { View } from '../types'
+import { useTranslation } from '../i18n'
 
 interface TopBarProps {
   view: View
@@ -8,11 +9,12 @@ interface TopBarProps {
 }
 
 const skipLabels: Partial<Record<View, string>> = {
-  home: 'Перейти к вводу',
-  settings: 'Перейти к управлению данными',
+  home: 'nav.skipToInput',
+  settings: 'nav.skipToData',
 }
 
 export default function TopBar({ view, onNavigate, onSkipToSection }: TopBarProps) {
+  const { t } = useTranslation()
   const homeRef = useRef<HTMLButtonElement>(null)
   const favRef = useRef<HTMLButtonElement>(null)
   const skipRef = useRef<HTMLButtonElement>(null)
@@ -44,8 +46,8 @@ export default function TopBar({ view, onNavigate, onSkipToSection }: TopBarProp
   return (
     <header className="fixed top-0 w-full z-10 pointer-events-none flex items-center justify-between px-2 py-3">
       <button
-        title="Пройденное"
-        aria-label="Пройденное"
+        title={t('nav.learned')}
+        aria-label={t('nav.learned')}
         onClick={() => onNavigate('learned')}
         className={`pointer-events-auto sm:hidden w-12 h-12 flex items-center justify-center text-2xl transition-colors duration-200 hover:text-accent focus-visible:text-accent shrink-0 focus-ring focus-circle ${
           view === 'learned' ? 'text-accent' : 'text-subhead'
@@ -55,8 +57,8 @@ export default function TopBar({ view, onNavigate, onSkipToSection }: TopBarProp
       </button>
       <button
         ref={homeRef}
-        title="Главный экран"
-        aria-label="Главный экран"
+        title={t('nav.home')}
+        aria-label={t('nav.home')}
         onClick={() => onNavigate('home')}
         className={`pointer-events-auto hidden sm:flex w-12 h-12 items-center justify-center text-2xl transition-colors duration-200 hover:text-accent focus-visible:text-accent shrink-0 focus-ring focus-circle ${
           view === 'home' ? 'text-accent' : 'text-subhead'
@@ -66,8 +68,8 @@ export default function TopBar({ view, onNavigate, onSkipToSection }: TopBarProp
       </button>
       <button
         ref={favRef}
-        title="Избранное"
-        aria-label="Избранное"
+        title={t('nav.favorites')}
+        aria-label={t('nav.favorites')}
         onClick={() => onNavigate('favorites')}
         className={`pointer-events-auto w-12 h-12 flex items-center justify-center text-2xl transition-colors duration-200 hover:text-accent focus-visible:text-accent shrink-0 focus-ring focus-circle ${
           view === 'favorites' ? 'text-accent' : 'text-subhead'
@@ -89,7 +91,7 @@ export default function TopBar({ view, onNavigate, onSkipToSection }: TopBarProp
         }}
         onClick={onSkipToSection}
       >
-        {skipLabels[view] ?? 'Перейти к управлению секцией'}
+        {t((skipLabels[view] ?? 'nav.skipToSection') as 'nav.skipToInput')}
       </button>
     </header>
   )

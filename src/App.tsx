@@ -2,6 +2,7 @@ import { useMemo, useCallback, useState, useRef } from 'react'
 import type { View, StoredWord, Word, DictMeta, ExportedData } from './types'
 import { useSettings } from './hooks/useSettings'
 import { useLocalStorage } from './hooks/useLocalStorage'
+import { I18nProvider, useTranslation } from './i18n'
 import rawData from './data/words-srp-rus-1200.json'
 import TopBar from './components/TopBar'
 import BottomBar from './components/BottomBar'
@@ -46,6 +47,7 @@ function useModeStorage<T>(key: string, initial: T) {
 function App() {
   const [view, setView] = useLocalStorage<View>(V_KEY, 'home')
   const [settings, setSettings] = useSettings()
+  const { t } = useTranslation()
 
   const [fromToFavorites, setFromToFavorites] = useModeStorage<StoredWord[]>(FROMTO_FAV, [])
   const [fromToLearned, setFromToLearned] = useModeStorage<StoredWord[]>(FROMTO_LRN, [])
@@ -235,6 +237,7 @@ function App() {
       useAltInputLang: false,
       useRefLangForLabels: false,
       sortTablesBy: ['date_desc'],
+      language: 'ru',
     })
     setResetKey((k) => k + 1)
   }, [setSettings])
@@ -325,6 +328,7 @@ function App() {
   }, [setFavorites])
 
   return (
+    <I18nProvider lang={settings.language}>
     <div className="min-h-dvh flex flex-col bg-bg">
       <TopBar view={view} onNavigate={handleNavigate} onSkipToSection={handleSkipToSection} />
 
@@ -348,7 +352,7 @@ function App() {
         </div>
         {view === 'favorites' && (
           <div className="w-full animate-fade-in-up1">
-            <h1 className="text-lg font-semibold text-subhead text-center mb-4">Избранное</h1>
+            <h1 className="text-lg font-semibold text-subhead text-center mb-4">{t('nav.favorites')}</h1>
             <ErrorBoundary>
               <FavoritesTable
                 favorites={favorites}
@@ -366,7 +370,7 @@ function App() {
         )}
         {view === 'learned' && (
           <div className="w-full animate-fade-in-up1">
-            <h1 className="text-lg font-semibold text-subhead text-center mb-4">Пройденное</h1>
+            <h1 className="text-lg font-semibold text-subhead text-center mb-4">{t('nav.learned')}</h1>
             <ErrorBoundary>
               <LearnedTable
                 learned={learned}
@@ -410,6 +414,7 @@ function App() {
         phrasebookMode={settings.phrasebookMode}
       />
     </div>
+    </I18nProvider>
   )
 }
 

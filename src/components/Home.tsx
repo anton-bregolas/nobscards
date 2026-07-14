@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo, useEffect, useRef, forwardRef } from 'react'
 import type { View, Word, StoredWord, AppSettings, DictMeta } from '../types'
+import { useTranslation } from '../i18n'
 import WordCard from './WordCard'
 import InputArea from './InputArea'
 import ActionButtons from './ActionButtons'
@@ -33,6 +34,7 @@ const Home = forwardRef<HTMLInputElement, HomeProps>(function Home({
   onMatchResult,
   onUpdateFavoriteAccuStat,
 }, ref) {
+  const { t } = useTranslation()
   const [currentId, setCurrentId] = useState<number | null>(null)
   const [isFlipped, setIsFlipped] = useState(false)
   const [wrongAttempts, setWrongAttempts] = useState(0)
@@ -238,7 +240,7 @@ const Home = forwardRef<HTMLInputElement, HomeProps>(function Home({
     return (
       <div className="flex flex-col items-center justify-center gap-4 py-16 text-text opacity-60">
         <i className="bi bi-check-all text-6xl" />
-        <p className="text-lg">Все слова выучены! Поздравляю!</p>
+        <p className="text-lg">{t('home.completed')}</p>
       </div>
     )
   }
