@@ -44,6 +44,11 @@ export default function Settings({
   const internalSaveRef = useRef<HTMLButtonElement>(null)
   const saveRef = saveRefProp ?? internalSaveRef
 
+  const dictIdMatch = (a: string, b: string) => {
+    const strict = localStorage.getItem('useStrictDictIdChecks') === 'true'
+    return strict ? a === b : a.split('-').slice(0, 3).join('-') === b.split('-').slice(0, 3).join('-')
+  }
+
   useEffect(() => {
     if (prevDictIdRef.current !== dictionaryId) {
       prevDictIdRef.current = dictionaryId
@@ -99,7 +104,7 @@ export default function Settings({
     reader.onload = (e) => {
       try {
         const raw = JSON.parse(e.target!.result as string) as ExportedData
-        if (raw.dictId !== dictionaryId) {
+        if (!dictIdMatch(raw.dictId, dictionaryId)) {
           setImportError(t('error.dictIdMismatch'))
           showPopover(errorPopover.current)
           return
