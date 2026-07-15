@@ -11,28 +11,28 @@
     "srpCyrl": "девојка",
     "srpLatn": "devojka",
     "rus": ["девушка"],
-    "eng": ["young woman"]
+    "eng": ["young woman", "girl", "girlfriend", "lass"]
   },
   {
     "id": 2,
     "srpCyrl": "цура",
     "srpLatn": "cura",
-    "rus": ["девушка", "девчонка", "подружка"],
-    "eng": ["young woman", "girl", "girlfriend"]
+    "rus": ["девчонка", "девушка", "подружка"],
+    "eng": ["girl", "young woman", "girlfriend", "lass"]
   },
   {
     "id": 3,
     "srpCyrl": "момак",
     "srpLatn": "momak",
-    "rus": ["парень", "юноша"],
-    "eng": ["boy", "young man"]
+    "rus": ["юноша", "парень", "молодой человек"],
+    "eng": ["lad", "young man", "boyfriend"]
   },
   {
     "id": 4,
     "srpCyrl": "дечко",
     "srpLatn": "dečko",
-    "rus": ["парень"],
-    "eng": ["boy"]
+    "rus": ["парень", "мальчик"],
+    "eng": ["boyfriend", "young man", "boy"]
   },
   {
     "id": 5,
@@ -130,14 +130,14 @@
     "srpCyrl": "девојчица",
     "srpLatn": "devojčica",
     "rus": ["девочка"],
-    "eng": ["lass", "girl"]
+    "eng": ["little girl", "girl"]
   },
   {
     "id": 19,
     "srpCyrl": "младић",
     "srpLatn": "mladić",
-    "rus": ["юноша", "молодой человек"],
-    "eng": ["lad", "young man"]
+    "rus": ["молодой человек", "юноша"],
+    "eng": ["young man", "lad"]
   },
   {
     "id": 20,
@@ -157,22 +157,22 @@
     "id": 22,
     "srpCyrl": "ћерка",
     "srpLatn": "ćerka",
-    "rus": ["дочь"],
+    "rus": ["дочь", "дочка"],
     "eng": ["daughter"]
   },
   {
     "id": 23,
     "srpCyrl": "кћерка",
     "srpLatn": "kćerka",
-    "rus": ["дочь"],
-    "eng": ["daughter"]
+    "rus": ["дочерь", "дочь"],
+    "eng": ["daughter (formal)"]
   },
   {
     "id": 24,
     "srpCyrl": "кћи",
     "srpLatn": "kći",
-    "rus": ["дочь"],
-    "eng": ["daughter"]
+    "rus": ["дщерь", "дочерь", "дочь"],
+    "eng": ["daughter (literary)"]
   },
   {
     "id": 25,
@@ -304,14 +304,14 @@
     "id": 43,
     "srpCyrl": "бутина",
     "srpLatn": "butina",
-    "rus": ["бедро"],
+    "rus": ["ляжка", "бедро"],
     "eng": ["thigh"]
   },
   {
     "id": 44,
     "srpCyrl": "бедро",
     "srpLatn": "bedro",
-    "rus": ["бедро"],
+    "rus": ["бедро", "ляжка"],
     "eng": ["thigh"]
   },
   {
@@ -493,8 +493,8 @@
     "id": 70,
     "srpCyrl": "башта",
     "srpLatn": "bašta",
-    "rus": ["сад", "огород"],
-    "eng": ["garden", "vegetable garden"]
+    "rus": ["огород", "сад"],
+    "eng": ["vegetable garden", "garden"]
   },
   {
     "id": 71,
@@ -710,7 +710,7 @@
     "id": 101,
     "srpCyrl": "обући",
     "srpLatn": "obući",
-    "rus": ["одевать", "обувать", "одеть", "обуть"],
+    "rus": ["обуть", "одеть", "обувать", "одевать"],
     "eng": ["to dress", "to put on (shoes)"]
   },
   {
@@ -759,7 +759,7 @@
     "id": 108,
     "srpCyrl": "сећи",
     "srpLatn": "seći",
-    "rus": ["резать", "порезать"],
+    "rus": ["резать", "сечь", "рубить"],
     "eng": ["to cut"]
   },
   {
@@ -787,7 +787,7 @@
     "id": 112,
     "srpCyrl": "приказати",
     "srpLatn": "prikazati",
-    "rus": ["показать", "представить", "показывать"],
+    "rus": ["представлять", "показывать", "представить", "показать"],
     "eng": ["to show", "to introduce"]
   },
   {
@@ -815,7 +815,7 @@
     "id": 116,
     "srpCyrl": "пловити",
     "srpLatn": "ploviti",
-    "rus": ["плавать", "плыть", "ходить (про судно)"],
+    "rus": ["плыть", "плавать", "ходить (о судне)"],
     "eng": ["to sail"]
   },
   {
@@ -864,15 +864,15 @@
     "id": 123,
     "srpCyrl": "спасити",
     "srpLatn": "spasiti",
-    "rus": ["спасти"],
-    "eng": ["to save"]
+    "rus": ["спасти", "спасать"],
+    "eng": ["to save", "to rescue"]
   },
   {
     "id": 124,
     "srpCyrl": "спашавати",
     "srpLatn": "spašavati",
-    "rus": ["спасать"],
-    "eng": ["to save"]
+    "rus": ["спасать", "спасти"],
+    "eng": ["to rescue", "to save"]
   },
   {
     "id": 125,
@@ -927,8 +927,8 @@
     "id": 132,
     "srpCyrl": "предложити",
     "srpLatn": "predložiti",
-    "rus": ["предложить", "предлагать"],
-    "eng": ["to offer"]
+    "rus": ["предложить (идею)", "предложить", "предлагать"],
+    "eng": ["to suggest", "to propose", "to offer"]
   },
   {
     "id": 133,
@@ -941,8 +941,8 @@
     "id": 134,
     "srpCyrl": "решити",
     "srpLatn": "rešiti",
-    "rus": ["решить", "решать"],
-    "eng": ["to decide"]
+    "rus": ["разрешать", "решить", "решать"],
+    "eng": ["to solve", "to resolve"]
   },
   {
     "id": 135,
@@ -1025,7 +1025,7 @@
     "id": 146,
     "srpCyrl": "десити",
     "srpLatn": "desiti",
-    "rus": ["случиться", "случаться"],
+    "rus": ["произойти", "случиться", "случаться"],
     "eng": ["to happen", "to occur", "to take place"]
   },
   {
@@ -1067,7 +1067,7 @@
     "id": 152,
     "srpCyrl": "бојати",
     "srpLatn": "bojati",
-    "rus": ["бояться", "испугаться"],
+    "rus": ["бояться", "пугаться"],
     "eng": ["to be afraid"]
   },
   {
@@ -1095,7 +1095,7 @@
     "id": 156,
     "srpCyrl": "допасти",
     "srpLatn": "dopasti",
-    "rus": ["понравиться", "нравиться"],
+    "rus": ["приглянуться", "понравиться", "нравиться"],
     "eng": ["to appeal to"]
   },
   {
@@ -1116,7 +1116,7 @@
     "id": 159,
     "srpCyrl": "сликати",
     "srpLatn": "slikati",
-    "rus": ["рисовать", "фотографировать", "нарисовать"],
+    "rus": ["фотографировать", "рисовать", "нарисовать"],
     "eng": ["to paint", "to photograph"]
   },
   {
@@ -1207,7 +1207,7 @@
     "id": 172,
     "srpCyrl": "прихватити",
     "srpLatn": "prihvatiti",
-    "rus": ["принять", "принимать"],
+    "rus": ["принять (идею)", "принимать"],
     "eng": ["to accept"]
   },
   {
@@ -1235,7 +1235,7 @@
     "id": 176,
     "srpCyrl": "подићи",
     "srpLatn": "podići",
-    "rus": ["поднять", "поднимать"],
+    "rus": ["подымать", "поднимать", "поднять"],
     "eng": ["to raise"]
   },
   {
@@ -1284,7 +1284,7 @@
     "id": 183,
     "srpCyrl": "раздвојити",
     "srpLatn": "razdvojiti",
-    "rus": ["разделить", "разъединить", "разделять", "разъединять"],
+    "rus": ["разъединить", "разделить", "разъединять", "разделять"],
     "eng": ["to divide", "to disconnect"]
   },
   {
@@ -1305,7 +1305,7 @@
     "id": 186,
     "srpCyrl": "познавати",
     "srpLatn": "poznavati",
-    "rus": ["знать", "быть знакомым", "узнать"],
+    "rus": ["быть знакомым", "знать", "узнать"],
     "eng": ["to know", "to be familiar"]
   },
   {
@@ -1368,14 +1368,14 @@
     "id": 195,
     "srpCyrl": "обећати",
     "srpLatn": "obećati",
-    "rus": ["обещать"],
+    "rus": ["пообещать", "обещать"],
     "eng": ["to promise"]
   },
   {
     "id": 196,
     "srpCyrl": "средити",
     "srpLatn": "srediti",
-    "rus": ["убрать", "привести в порядок", "убирать"],
+    "rus": ["привести в порядок", "убрать", "убирать"],
     "eng": ["to put away", "to tidy up"]
   },
   {
@@ -1438,15 +1438,15 @@
     "id": 205,
     "srpCyrl": "основати",
     "srpLatn": "osnovati",
-    "rus": ["основать", "основывать"],
-    "eng": ["to found"]
+    "rus": ["основать", "учредить", "основывать"],
+    "eng": ["to found", "to establish"]
   },
   {
     "id": 206,
     "srpCyrl": "засновати",
     "srpLatn": "zasnovati",
-    "rus": ["основать", "базировать", "основывать"],
-    "eng": ["to found", "to base"]
+    "rus": ["основывать", "построить на", "основать на"],
+    "eng": ["to base on", "to found on", "to establish"]
   },
   {
     "id": 207,
@@ -1459,7 +1459,7 @@
     "id": 208,
     "srpCyrl": "интересовати",
     "srpLatn": "interesovati",
-    "rus": ["интересовать", "заинтересовать"],
+    "rus": ["заинтересовать", "интересовать"],
     "eng": ["to interest"]
   },
   {
@@ -1473,7 +1473,7 @@
     "id": 210,
     "srpCyrl": "пратити",
     "srpLatn": "pratiti",
-    "rus": ["следить", "сопровождать"],
+    "rus": ["сопровождать", "следить"],
     "eng": ["to track", "to accompany"]
   },
   {
@@ -1487,8 +1487,8 @@
     "id": 212,
     "srpCyrl": "надгледати",
     "srpLatn": "nadgledati",
-    "rus": ["наблюдать", "надзирать"],
-    "eng": ["to observe", "to supervise"]
+    "rus": ["надзирать", "следить", "наблюдать"],
+    "eng": ["to supervise", "to oversee", "to monitor"]
   },
   {
     "id": 213,
@@ -1599,21 +1599,21 @@
     "id": 228,
     "srpCyrl": "мотрити",
     "srpLatn": "motriti",
-    "rus": ["наблюдать"],
-    "eng": ["to observe"]
+    "rus": ["следить", "наблюдать", "сторожить"],
+    "eng": ["to watch", "to gaze", "to observe", "to keep watch"]
   },
   {
     "id": 229,
     "srpCyrl": "посматрати",
     "srpLatn": "posmatrati",
-    "rus": ["наблюдать"],
-    "eng": ["to observe"]
+    "rus": ["наблюдать", "смотреть"],
+    "eng": ["to observe", "to watch"]
   },
   {
     "id": 230,
     "srpCyrl": "примати",
     "srpLatn": "primati",
-    "rus": ["принимать", "принять"],
+    "rus": ["принимать", "получать"],
     "eng": ["to accept"]
   },
   {
@@ -1663,7 +1663,7 @@
     "srpCyrl": "понудити",
     "srpLatn": "ponuditi",
     "rus": ["предложить", "предлагать"],
-    "eng": ["to offer"]
+    "eng": ["to offer", "to make an offer"]
   },
   {
     "id": 238,
@@ -1697,7 +1697,7 @@
     "id": 242,
     "srpCyrl": "везати",
     "srpLatn": "vezati",
-    "rus": ["связать", "завязать", "связывать"],
+    "rus": ["завязать", "связать", "завязывать", "связывать"],
     "eng": ["to bind", "to tie"]
   },
   {
@@ -1732,8 +1732,8 @@
     "id": 247,
     "srpCyrl": "одлучивати",
     "srpLatn": "odlučivati",
-    "rus": ["решать", "решить"],
-    "eng": ["to decide"]
+    "rus": ["принимать решение", "решать", "решить"],
+    "eng": ["to make decisions", "to decide"]
   },
   {
     "id": 248,
@@ -1823,7 +1823,7 @@
     "id": 260,
     "srpCyrl": "пронаћи",
     "srpLatn": "pronaći",
-    "rus": ["найти", "отыскать", "находить"],
+    "rus": ["отыскать", "найти", "находить"],
     "eng": ["to find", "to locate", "to discover"]
   },
   {
@@ -1851,7 +1851,7 @@
     "id": 264,
     "srpCyrl": "бранити",
     "srpLatn": "braniti",
-    "rus": ["защищать", "оборонять", "защитить"],
+    "rus": ["оборонять", "защищать", "защитить"],
     "eng": ["to protect", "to defend"]
   },
   {
@@ -1865,7 +1865,7 @@
     "id": 266,
     "srpCyrl": "открити",
     "srpLatn": "otkriti",
-    "rus": ["открыть", "обнаружить", "открывать"],
+    "rus": ["обнаружить", "открыть", "открывать"],
     "eng": ["to open", "to discover"]
   },
   {
@@ -1900,7 +1900,7 @@
     "id": 271,
     "srpCyrl": "бојати се",
     "srpLatn": "bojati se",
-    "rus": ["бояться", "испугаться"],
+    "rus": ["испугаться", "бояться"],
     "eng": ["to be afraid"]
   },
   {
@@ -2075,7 +2075,7 @@
     "id": 296,
     "srpCyrl": "чорба",
     "srpLatn": "čorba",
-    "rus": ["суп", "похлёбка"],
+    "rus": ["похлёбка", "суп"],
     "eng": ["soup", "broth"]
   },
   {
@@ -2145,7 +2145,7 @@
     "id": 306,
     "srpCyrl": "јунак",
     "srpLatn": "junak",
-    "rus": ["герой"],
+    "rus": ["богатырь", "герой"],
     "eng": ["hero"]
   },
   {
@@ -2166,7 +2166,7 @@
     "id": 309,
     "srpCyrl": "крадљивац",
     "srpLatn": "kradljivac",
-    "rus": ["вор"],
+    "rus": ["похититель", "вор"],
     "eng": ["thief"]
   },
   {
@@ -2293,7 +2293,7 @@
     "srpCyrl": "ормар",
     "srpLatn": "ormar",
     "rus": ["шкаф"],
-    "eng": ["closet"]
+    "eng": ["wardrobe", "closet", "cabinet"]
   },
   {
     "id": 328,
@@ -2453,14 +2453,14 @@
     "id": 350,
     "srpCyrl": "ситни",
     "srpLatn": "sitni",
-    "rus": ["мелкий"],
+    "rus": ["мелкий", "маленький"],
     "eng": ["small"]
   },
   {
     "id": 351,
     "srpCyrl": "новији",
     "srpLatn": "noviji",
-    "rus": ["новый", "современный"],
+    "rus": ["новейший", "новый", "современный"],
     "eng": ["new", "novel", "modern"]
   },
   {
@@ -2495,7 +2495,7 @@
     "id": 356,
     "srpCyrl": "уски",
     "srpLatn": "uski",
-    "rus": ["узкий"],
+    "rus": ["узкий", "облегающий"],
     "eng": ["narrow"]
   },
   {
@@ -2523,7 +2523,7 @@
     "id": 360,
     "srpCyrl": "лаган",
     "srpLatn": "lagan",
-    "rus": ["лёгкий", "нетяжёлый"],
+    "rus": ["нетяжёлый", "лёгкий"],
     "eng": ["light", "easy"]
   },
   {
@@ -2635,7 +2635,7 @@
     "id": 376,
     "srpCyrl": "бесан",
     "srpLatn": "besan",
-    "rus": ["злой", "взбешённый", "яростный"],
+    "rus": ["взбешённый", "злой", "яростный"],
     "eng": ["furious", "angry"]
   },
   {
@@ -2719,7 +2719,7 @@
     "id": 388,
     "srpCyrl": "мекан",
     "srpLatn": "mekan",
-    "rus": ["мягкий"],
+    "rus": ["смягчённый", "мягкий", "нежный"],
     "eng": ["soft"]
   },
   {
@@ -2971,14 +2971,14 @@
     "id": 424,
     "srpCyrl": "готов",
     "srpLatn": "gotov",
-    "rus": ["готовый"],
+    "rus": ["готовый", "законченный"],
     "eng": ["ready"]
   },
   {
     "id": 425,
     "srpCyrl": "спреман",
     "srpLatn": "spreman",
-    "rus": ["готовый"],
+    "rus": ["подготовленный", "готовый"],
     "eng": ["ready"]
   },
   {
@@ -3055,8 +3055,8 @@
     "id": 436,
     "srpCyrl": "бистар",
     "srpLatn": "bistar",
-    "rus": ["светлый", "ясный", "прозрачный"],
-    "eng": ["light", "clear", "transparent"]
+    "rus": ["прозрачный", "светлый", "ясный"],
+    "eng": ["transparent", "clear", "light"]
   },
   {
     "id": 437,
@@ -3069,8 +3069,8 @@
     "id": 438,
     "srpCyrl": "оштар",
     "srpLatn": "oštar",
-    "rus": ["острый"],
-    "eng": ["spicy"]
+    "rus": ["острый", "заострённый"],
+    "eng": ["sharp", "acute"]
   },
   {
     "id": 439,
@@ -3090,7 +3090,7 @@
     "id": 441,
     "srpCyrl": "плитак",
     "srpLatn": "plitak",
-    "rus": ["мелкий", "неглубокий"],
+    "rus": ["неглубокий", "мелкий"],
     "eng": ["small", "shallow"]
   },
   {
@@ -3209,14 +3209,14 @@
     "id": 458,
     "srpCyrl": "красан",
     "srpLatn": "krasan",
-    "rus": ["прекрасный"],
+    "rus": ["прекрасный", "красивый"],
     "eng": ["beautiful"]
   },
   {
     "id": 459,
     "srpCyrl": "прелеп",
     "srpLatn": "prelep",
-    "rus": ["прекрасный", "великолепный"],
+    "rus": ["великолепный", "прекрасный"],
     "eng": ["beautiful", "fabulous"]
   },
   {
@@ -3237,7 +3237,7 @@
     "id": 462,
     "srpCyrl": "грозан",
     "srpLatn": "grozan",
-    "rus": ["ужасный", "грозный"],
+    "rus": ["грозный", "ужасный"],
     "eng": ["horrible", "formidable"]
   },
   {
@@ -3272,7 +3272,7 @@
     "id": 467,
     "srpCyrl": "безопасан",
     "srpLatn": "bezopasan",
-    "rus": ["безопасный", "неопасный"],
+    "rus": ["неопасный", "безопасный"],
     "eng": ["safe", "harmless"]
   },
   {
@@ -3531,7 +3531,7 @@
     "id": 504,
     "srpCyrl": "јавни",
     "srpLatn": "javni",
-    "rus": ["общественный", "публичный"],
+    "rus": ["публичный", "общественный"],
     "eng": ["public"]
   },
   {
@@ -3559,7 +3559,7 @@
     "id": 508,
     "srpCyrl": "сложен",
     "srpLatn": "složen",
-    "rus": ["сложный", "составной"],
+    "rus": ["составной", "сложный"],
     "eng": ["difficult", "composite"]
   },
   {
@@ -3650,7 +3650,7 @@
     "id": 521,
     "srpCyrl": "наредни",
     "srpLatn": "naredni",
-    "rus": ["следующий", "очередной"],
+    "rus": ["очередной", "следующий"],
     "eng": ["next", "another"]
   },
   {
@@ -3797,7 +3797,7 @@
     "id": 542,
     "srpCyrl": "миришљав",
     "srpLatn": "mirišljav",
-    "rus": ["ароматный"],
+    "rus": ["пахучий", "ароматный"],
     "eng": ["fragrant"]
   },
   {
@@ -3809,31 +3809,31 @@
   },
   {
     "id": 544,
-    "srpCyrl": "већ",
-    "srpLatn": "već",
-    "rus": ["уже"],
-    "eng": ["already"]
+    "srpCyrl": "тренутни",
+    "srpLatn": "trenutni",
+    "rus": ["текущий", "нынешний"],
+    "eng": ["current", "present"]
   },
   {
     "id": 545,
-    "srpCyrl": "још",
-    "srpLatn": "još",
-    "rus": ["ещё"],
-    "eng": ["more", "still", "yet"]
+    "srpCyrl": "додатни",
+    "srpLatn": "dodatni",
+    "rus": ["дополнительный"],
+    "eng": ["additional", "extra"]
   },
   {
     "id": 546,
-    "srpCyrl": "никад",
-    "srpLatn": "nikad",
-    "rus": ["никогда"],
-    "eng": ["never"]
+    "srpCyrl": "никакав",
+    "srpLatn": "nikakav",
+    "rus": ["никакой"],
+    "eng": ["no (kind of)", "any", "none"]
   },
   {
     "id": 547,
-    "srpCyrl": "између",
-    "srpLatn": "između",
-    "rus": ["между"],
-    "eng": ["between"]
+    "srpCyrl": "међусобни",
+    "srpLatn": "međusobni",
+    "rus": ["взаимный", "обоюдный"],
+    "eng": ["mutual", "reciprocal"]
   },
   {
     "id": 548,
@@ -3888,14 +3888,14 @@
     "id": 555,
     "srpCyrl": "казати",
     "srpLatn": "kazati",
-    "rus": ["сказать", "говорить"],
+    "rus": ["изречь", "сказать", "говорить"],
     "eng": ["to say"]
   },
   {
     "id": 556,
     "srpCyrl": "радити",
     "srpLatn": "raditi",
-    "rus": ["делать", "работать", "сделать"],
+    "rus": ["работать", "делать", "сделать"],
     "eng": ["to do", "to work"]
   },
   {
@@ -4000,7 +4000,7 @@
     "id": 571,
     "srpCyrl": "стати",
     "srpLatn": "stati",
-    "rus": ["стоять", "остановиться", "вставать"],
+    "rus": ["остановиться", "стоять", "вставать"],
     "eng": ["to stand", "to halt", "to stand up"]
   },
   {
@@ -4049,21 +4049,21 @@
     "id": 578,
     "srpCyrl": "поћи",
     "srpLatn": "poći",
-    "rus": ["выйти", "выходить", "начать", "начинать"],
+    "rus": ["отправиться", "выйти", "выходить", "начать", "начинать"],
     "eng": ["to leave", "to depart", "to begin", "to start"]
   },
   {
     "id": 579,
     "srpCyrl": "ући",
     "srpLatn": "ući",
-    "rus": ["входить", "войти"],
+    "rus": ["войти", "входить"],
     "eng": ["to go in", "to enter"]
   },
   {
     "id": 580,
     "srpCyrl": "изаћи",
     "srpLatn": "izaći",
-    "rus": ["выходить", "выйти"],
+    "rus": ["выйти", "выходить"],
     "eng": ["to go out", "to exit"]
   },
   {
@@ -4126,7 +4126,7 @@
     "id": 589,
     "srpCyrl": "примити",
     "srpLatn": "primiti",
-    "rus": ["принять", "принимать"],
+    "rus": ["принять", "получить", "принимать"],
     "eng": ["to accept"]
   },
   {
@@ -4315,14 +4315,14 @@
     "id": 616,
     "srpCyrl": "користити",
     "srpLatn": "koristiti",
-    "rus": ["использовать"],
+    "rus": ["пользоваться", "использовать"],
     "eng": ["to use"]
   },
   {
     "id": 617,
     "srpCyrl": "променити",
     "srpLatn": "promeniti",
-    "rus": ["изменить", "изменять"],
+    "rus": ["менять", "изменить", "изменять"],
     "eng": ["to change"]
   },
   {
@@ -4371,7 +4371,7 @@
     "id": 624,
     "srpCyrl": "сматрати",
     "srpLatn": "smatrati",
-    "rus": ["считать", "полагать"],
+    "rus": ["полагать", "считать"],
     "eng": ["to consider", "to believe"]
   },
   {
@@ -4448,7 +4448,7 @@
     "id": 635,
     "srpCyrl": "бежати",
     "srpLatn": "bežati",
-    "rus": ["бежать", "убегать", "побежать"],
+    "rus": ["убегать", "бежать", "побежать"],
     "eng": ["to run", "to run away"]
   },
   {
@@ -4483,7 +4483,7 @@
     "id": 640,
     "srpCyrl": "надати",
     "srpLatn": "nadati",
-    "rus": ["надеяться"],
+    "rus": ["уповать", "надеяться"],
     "eng": ["to hope"]
   },
   {
@@ -4588,7 +4588,7 @@
     "id": 655,
     "srpCyrl": "пробати",
     "srpLatn": "probati",
-    "rus": ["попробовать", "пробовать"],
+    "rus": ["пробовать", "попробовать"],
     "eng": ["to try"]
   },
   {
@@ -4665,7 +4665,7 @@
     "id": 666,
     "srpCyrl": "резати",
     "srpLatn": "rezati",
-    "rus": ["резать", "порезать"],
+    "rus": ["порезать", "резать"],
     "eng": ["to cut"]
   },
   {
@@ -4819,7 +4819,7 @@
     "id": 688,
     "srpCyrl": "мешати",
     "srpLatn": "mešati",
-    "rus": ["мешать", "смешивать"],
+    "rus": ["смешивать", "мешать"],
     "eng": ["to interfere", "to mix"]
   },
   {
@@ -4966,7 +4966,7 @@
     "id": 709,
     "srpCyrl": "баба",
     "srpLatn": "baba",
-    "rus": ["бабушка"],
+    "rus": ["бабка", "бабушка", "старуха"],
     "eng": ["grandmother"]
   },
   {
@@ -5022,7 +5022,7 @@
     "id": 717,
     "srpCyrl": "свет",
     "srpLatn": "svet",
-    "rus": ["мир", "свет"],
+    "rus": ["свет", "мир"],
     "eng": ["world", "light"]
   },
   {
@@ -5106,7 +5106,7 @@
     "id": 729,
     "srpCyrl": "кућа",
     "srpLatn": "kuća",
-    "rus": ["дом"],
+    "rus": ["дом", "жилище", "здание"],
     "eng": ["house"]
   },
   {
@@ -5155,8 +5155,8 @@
     "id": 736,
     "srpCyrl": "орман",
     "srpLatn": "orman",
-    "rus": ["шкаф"],
-    "eng": ["closet"]
+    "rus": ["шкап", "шкаф"],
+    "eng": ["closet", "wardrobe", "cabinet"]
   },
   {
     "id": 737,
@@ -5764,21 +5764,21 @@
     "id": 823,
     "srpCyrl": "кратак",
     "srpLatn": "kratak",
-    "rus": ["короткий"],
+    "rus": ["краткий", "короткий"],
     "eng": ["short"]
   },
   {
     "id": 824,
     "srpCyrl": "широк",
     "srpLatn": "širok",
-    "rus": ["широкий"],
+    "rus": ["просторный", "широкий"],
     "eng": ["wide"]
   },
   {
     "id": 825,
     "srpCyrl": "узак",
     "srpLatn": "uzak",
-    "rus": ["узкий"],
+    "rus": ["тесный", "узкий"],
     "eng": ["narrow"]
   },
   {
@@ -5806,7 +5806,7 @@
     "id": 829,
     "srpCyrl": "мек",
     "srpLatn": "mek",
-    "rus": ["мягкий"],
+    "rus": ["мягкий", "нежный"],
     "eng": ["soft"]
   },
   {
@@ -5932,15 +5932,15 @@
     "id": 847,
     "srpCyrl": "љут",
     "srpLatn": "ljut",
-    "rus": ["сердитый"],
-    "eng": ["angry"]
+    "rus": ["сердитый", "острый"],
+    "eng": ["angry", "spicy"]
   },
   {
     "id": 848,
     "srpCyrl": "драг",
     "srpLatn": "drag",
-    "rus": ["дорогой", "милый"],
-    "eng": ["dear", "precious"]
+    "rus": ["любимый", "милый", "дорогой"],
+    "eng": ["dear", "beloved", "precious"]
   },
   {
     "id": 849,
@@ -5986,10 +5986,10 @@
   },
   {
     "id": 855,
-    "srpCyrl": "топал",
-    "srpLatn": "topal",
-    "rus": ["тёплый"],
-    "eng": ["warm"]
+    "srpCyrl": "жив",
+    "srpLatn": "živ",
+    "rus": ["живой"],
+    "eng": ["alive", "living", "live"]
   },
   {
     "id": 856,
@@ -6009,7 +6009,7 @@
     "id": 858,
     "srpCyrl": "лак",
     "srpLatn": "lak",
-    "rus": ["лёгкий"],
+    "rus": ["лёгкий", "простой"],
     "eng": ["easy"]
   },
   {
@@ -6044,7 +6044,7 @@
     "id": 863,
     "srpCyrl": "познат",
     "srpLatn": "poznat",
-    "rus": ["известный"],
+    "rus": ["знакомый", "известный"],
     "eng": ["famous"]
   },
   {
@@ -6084,10 +6084,10 @@
   },
   {
     "id": 869,
-    "srpCyrl": "",
-    "srpLatn": "",
-    "rus": [""],
-    "eng": [""]
+    "srpCyrl": "невероватан",
+    "srpLatn": "neverovatan",
+    "rus": ["невероятный", "неимоверный"],
+    "eng": ["incredible", "unbelievable"]
   },
   {
     "id": 870,
@@ -6105,10 +6105,10 @@
   },
   {
     "id": 872,
-    "srpCyrl": "лен",
-    "srpLatn": "len",
-    "rus": ["ленивый"],
-    "eng": ["lazy"]
+    "srpCyrl": "потребан",
+    "srpLatn": "potreban",
+    "rus": ["нужный", "необходимый"],
+    "eng": ["necessary", "needed"]
   },
   {
     "id": 873,
@@ -6126,24 +6126,24 @@
   },
   {
     "id": 875,
-    "srpCyrl": "благо",
-    "srpLatn": "blago",
-    "rus": ["мягко", "нежно"],
-    "eng": ["soft", "gently"]
+    "srpCyrl": "благ",
+    "srpLatn": "blag",
+    "rus": ["неострый", "мягкий", "нежный", "кроткий"],
+    "eng": ["mild", "gentle", "meek"]
   },
   {
     "id": 876,
-    "srpCyrl": "оштро",
-    "srpLatn": "oštro",
-    "rus": ["остро"],
-    "eng": ["sharply"]
+    "srpCyrl": "нестати",
+    "srpLatn": "nestati",
+    "rus": ["пропадать", "пропасть", "исчезнуть"],
+    "eng": ["to go missing", "to disappear", "to vanish"]
   },
   {
     "id": 877,
-    "srpCyrl": "",
-    "srpLatn": "",
-    "rus": [""],
-    "eng": [""]
+    "srpCyrl": "враћати",
+    "srpLatn": "vraćati",
+    "rus": ["отдавать", "возвращать"],
+    "eng": ["to return", "to give back"]
   },
   {
     "id": 878,
@@ -6161,150 +6161,150 @@
   },
   {
     "id": 880,
-    "srpCyrl": "унутра",
-    "srpLatn": "unutra",
-    "rus": ["внутри"],
-    "eng": ["inside"]
+    "srpCyrl": "смисао",
+    "srpLatn": "smisao",
+    "rus": ["смысл"],
+    "eng": ["meaning", "sense"]
   },
   {
     "id": 881,
-    "srpCyrl": "укључујући",
-    "srpLatn": "uključujući",
-    "rus": ["включая"],
-    "eng": ["including"]
+    "srpCyrl": "фин",
+    "srpLatn": "fin",
+    "rus": ["отличный", "отменный", "изящный"],
+    "eng": ["nice", "fine", "excellent", "refined"]
   },
   {
     "id": 882,
-    "srpCyrl": "према",
-    "srpLatn": "prema",
-    "rus": ["согласно"],
-    "eng": ["according to"]
+    "srpCyrl": "сладак",
+    "srpLatn": "sladak",
+    "rus": ["сладкий"],
+    "eng": ["sweet"]
   },
   {
     "id": 883,
-    "srpCyrl": "тобоже",
-    "srpLatn": "tobože",
-    "rus": ["предположительно", "якобы"],
-    "eng": ["supposedly", "allegedly"]
+    "srpCyrl": "боја",
+    "srpLatn": "boja",
+    "rus": ["цвет", "окраска"],
+    "eng": ["color", "paint"]
   },
   {
     "id": 884,
-    "srpCyrl": "једанаест",
-    "srpLatn": "jedanaest",
-    "rus": ["одиннадцать"],
-    "eng": ["eleven"]
+    "srpCyrl": "прошли",
+    "srpLatn": "prošli",
+    "rus": ["прошлый"],
+    "eng": ["past", "last"]
   },
   {
     "id": 885,
-    "srpCyrl": "дванаест",
-    "srpLatn": "dvanaest",
-    "rus": ["двенадцать"],
-    "eng": ["twelve"]
+    "srpCyrl": "једини",
+    "srpLatn": "jedini",
+    "rus": ["единственный"],
+    "eng": ["only", "sole"]
   },
   {
     "id": 886,
-    "srpCyrl": "тринаест",
-    "srpLatn": "trinaest",
-    "rus": ["тринадцать"],
-    "eng": ["thirteen"]
+    "srpCyrl": "луд",
+    "srpLatn": "lud",
+    "rus": ["сумасшедший"],
+    "eng": ["crazy", "mad"]
   },
   {
     "id": 887,
-    "srpCyrl": "четрнаест",
-    "srpLatn": "četrnaest",
-    "rus": ["четырнадцать"],
-    "eng": ["fourteen"]
+    "srpCyrl": "пажљив",
+    "srpLatn": "pažljiv",
+    "rus": ["внимательный"],
+    "eng": ["careful", "attentive"]
   },
   {
     "id": 888,
-    "srpCyrl": "петнаест",
-    "srpLatn": "petnaest",
-    "rus": ["пятнадцать"],
-    "eng": ["fifteen"]
+    "srpCyrl": "пијан",
+    "srpLatn": "pijan",
+    "rus": ["пьяный"],
+    "eng": ["drunk"]
   },
   {
     "id": 889,
-    "srpCyrl": "шеснаест",
-    "srpLatn": "šesnaest",
-    "rus": ["шестнадцать"],
-    "eng": ["sixteen"]
+    "srpCyrl": "ствар",
+    "srpLatn": "stvar",
+    "rus": ["вещь"],
+    "eng": ["thing"]
   },
   {
     "id": 890,
-    "srpCyrl": "седамнаест",
-    "srpLatn": "sedamnaest",
-    "rus": ["семнадцать"],
-    "eng": ["seventeen"]
+    "srpCyrl": "ватра",
+    "srpLatn": "vatra",
+    "rus": ["огонь"],
+    "eng": ["fire"]
   },
   {
     "id": 891,
-    "srpCyrl": "осамнаест",
-    "srpLatn": "osamnaest",
-    "rus": ["восемнадцать"],
-    "eng": ["eighteen"]
+    "srpCyrl": "разговор",
+    "srpLatn": "razgovor",
+    "rus": ["разговор"],
+    "eng": ["conversation", "talk"]
   },
   {
     "id": 892,
-    "srpCyrl": "деветнаест",
-    "srpLatn": "devetnaest",
-    "rus": ["девятнадцать"],
-    "eng": ["nineteen"]
+    "srpCyrl": "дозвола",
+    "srpLatn": "dozvola",
+    "rus": ["разрешение"],
+    "eng": ["permission"]
   },
   {
     "id": 893,
-    "srpCyrl": "двадесет",
-    "srpLatn": "dvadeset",
-    "rus": ["двадцать"],
-    "eng": ["twenty"]
+    "srpCyrl": "газда",
+    "srpLatn": "gazda",
+    "rus": ["шеф", "босс", "хозяин", "владелец"],
+    "eng": ["landlord", "boss", "master", "owner"]
   },
   {
     "id": 894,
-    "srpCyrl": "тридесет",
-    "srpLatn": "trideset",
-    "rus": ["тридцать"],
-    "eng": ["thirty"]
+    "srpCyrl": "место",
+    "srpLatn": "mesto",
+    "rus": ["место"],
+    "eng": ["place", "spot"]
   },
   {
     "id": 895,
-    "srpCyrl": "четрдесет",
-    "srpLatn": "četrdeset",
-    "rus": ["сорок"],
-    "eng": ["forty"]
+    "srpCyrl": "замислити",
+    "srpLatn": "zamisliti",
+    "rus": ["вообразить", "представить"],
+    "eng": ["to imagine"]
   },
   {
     "id": 896,
-    "srpCyrl": "педесет",
-    "srpLatn": "pedeset",
-    "rus": ["пятьдесят"],
-    "eng": ["fifty"]
+    "srpCyrl": "канцеларија",
+    "srpLatn": "kancelarija",
+    "rus": ["офис", "канцелярия"],
+    "eng": ["office"]
   },
   {
     "id": 897,
-    "srpCyrl": "шездесет",
-    "srpLatn": "šezdeset",
-    "rus": ["шестьдесят"],
-    "eng": ["sixty"]
+    "srpCyrl": "победити",
+    "srpLatn": "pobediti",
+    "rus": ["победить"],
+    "eng": ["to win", "to defeat"]
   },
   {
     "id": 898,
-    "srpCyrl": "седамдесет",
-    "srpLatn": "sedamdeset",
-    "rus": ["семьдесят"],
-    "eng": ["seventy"]
+    "srpCyrl": "проверити",
+    "srpLatn": "proveriti",
+    "rus": ["проверить"],
+    "eng": ["to check", "to verify"]
   },
   {
     "id": 899,
-    "srpCyrl": "осамдесет",
-    "srpLatn": "osamdeset",
-    "rus": ["восемьдесят"],
-    "eng": ["eighty"]
+    "srpCyrl": "приметити",
+    "srpLatn": "primetiti",
+    "rus": ["заметить"],
+    "eng": ["to notice"]
   },
   {
     "id": 900,
-    "srpCyrl": "деведесет",
-    "srpLatn": "devedeset",
-    "rus": ["девяносто"],
-    "eng": ["ninety"]
+    "srpCyrl": "написати",
+    "srpLatn": "napisati",
+    "rus": ["написать"],
+    "eng": ["to write"]
   },
   {
     "id": 901,
@@ -6331,7 +6331,7 @@
     "id": 904,
     "srpCyrl": "цео",
     "srpLatn": "ceo",
-    "rus": ["целый"],
+    "rus": ["весь", "целый"],
     "eng": ["whole"]
   },
   {
@@ -6366,7 +6366,7 @@
     "id": 909,
     "srpCyrl": "сврха",
     "srpLatn": "svrha",
-    "rus": ["цель", "назначение"],
+    "rus": ["назначение", "цель"],
     "eng": ["goal", "purpose"]
   },
   {
@@ -6451,7 +6451,7 @@
     "srpCyrl": "могућност",
     "srpLatn": "mogućnost",
     "rus": ["возможность"],
-    "eng": ["opportunity"]
+    "eng": ["possibility", "chance"]
   },
   {
     "id": 922,
@@ -6639,7 +6639,7 @@
     "id": 948,
     "srpCyrl": "занимање",
     "srpLatn": "zanimanje",
-    "rus": ["профессия"],
+    "rus": ["занятие", "профессия"],
     "eng": ["profession"]
   },
   {
@@ -6674,7 +6674,7 @@
     "id": 953,
     "srpCyrl": "радња",
     "srpLatn": "radnja",
-    "rus": ["магазин", "действие"],
+    "rus": ["лавка", "магазин"],
     "eng": ["shop", "action"]
   },
   {
@@ -6961,7 +6961,7 @@
     "id": 994,
     "srpCyrl": "случај",
     "srpLatn": "slučaj",
-    "rus": ["случай"],
+    "rus": ["случай", "дело"],
     "eng": ["case"]
   },
   {
@@ -7017,15 +7017,15 @@
     "id": 1002,
     "srpCyrl": "погледати",
     "srpLatn": "pogledati",
-    "rus": ["посмотреть", "смотреть"],
-    "eng": ["to look at", "to look"]
+    "rus": ["посмотреть", "взглянуть"],
+    "eng": ["to look at", "to take a look"]
   },
   {
     "id": 1003,
-    "srpCyrl": "",
-    "srpLatn": "",
-    "rus": ["", ""],
-    "eng": ["", ""]
+    "srpCyrl": "врста",
+    "srpLatn": "vrsta",
+    "rus": ["вид", "тип", "род"],
+    "eng": ["type", "kind", "sort"]
   },
   {
     "id": 1004,
@@ -7122,7 +7122,7 @@
     "id": 1017,
     "srpCyrl": "врати",
     "srpLatn": "vrati",
-    "rus": ["вернуть"],
+    "rus": ["возвращать", "вернуть"],
     "eng": ["to return"]
   },
   {
@@ -7197,10 +7197,10 @@
   },
   {
     "id": 1028,
-    "srpCyrl": "",
-    "srpLatn": "",
-    "rus": ["", ""],
-    "eng": [""]
+    "srpCyrl": "пажња",
+    "srpLatn": "pažnja",
+    "rus": ["внимание"],
+    "eng": ["attention"]
   },
   {
     "id": 1029,
@@ -7283,7 +7283,7 @@
     "id": 1040,
     "srpCyrl": "паре",
     "srpLatn": "pare",
-    "rus": ["деньги"],
+    "rus": ["денежки", "деньги"],
     "eng": ["money"]
   },
   {
@@ -7367,7 +7367,7 @@
     "id": 1052,
     "srpCyrl": "сан",
     "srpLatn": "san",
-    "rus": ["сон"],
+    "rus": ["сновидение", "сон"],
     "eng": ["dream"]
   },
   {
@@ -7486,7 +7486,7 @@
     "id": 1069,
     "srpCyrl": "сећати",
     "srpLatn": "sećati",
-    "rus": ["помнить", "вспомнить"],
+    "rus": ["вспоминать", "помнить", "вспомнить"],
     "eng": ["to remember", "to recall"]
   },
   {
@@ -7647,8 +7647,8 @@
     "id": 1092,
     "srpCyrl": "дом",
     "srpLatn": "dom",
-    "rus": ["дом"],
-    "eng": ["home"]
+    "rus": ["Дом", "учреждение", "дом"],
+    "eng": ["House", "home"]
   },
   {
     "id": 1093,
@@ -7675,8 +7675,8 @@
     "id": 1096,
     "srpCyrl": "другар",
     "srpLatn": "drugar",
-    "rus": ["друг"],
-    "eng": ["friend"]
+    "rus": ["друган", "друг", "приятель"],
+    "eng": ["buddy", "pal", "friend"]
   },
   {
     "id": 1097,
@@ -7822,15 +7822,15 @@
     "id": 1117,
     "srpCyrl": "лик",
     "srpLatn": "lik",
-    "rus": ["лицо"],
+    "rus": ["лик", "лицо"],
     "eng": ["face"]
   },
   {
     "id": 1118,
     "srpCyrl": "лова",
     "srpLatn": "lova",
-    "rus": ["деньги"],
-    "eng": ["money"]
+    "rus": ["бабло", "бабки", "деньги"],
+    "eng": ["bucks", "money"]
   },
   {
     "id": 1119,
@@ -7864,7 +7864,7 @@
     "id": 1123,
     "srpCyrl": "моћ",
     "srpLatn": "moć",
-    "rus": ["сила"],
+    "rus": ["мощь", "сила"],
     "eng": ["power"]
   },
   {
@@ -7927,7 +7927,7 @@
     "id": 1132,
     "srpCyrl": "памет",
     "srpLatn": "pamet",
-    "rus": ["разум"],
+    "rus": ["ум", "разум"],
     "eng": ["mind"]
   },
   {
@@ -7983,8 +7983,8 @@
     "id": 1140,
     "srpCyrl": "прилика",
     "srpLatn": "prilika",
-    "rus": ["случай"],
-    "eng": ["opportunity"]
+    "rus": ["возможность", "шанс", "случай"],
+    "eng": ["opportunity", "chance"]
   },
   {
     "id": 1141,
@@ -8039,7 +8039,7 @@
     "id": 1148,
     "srpCyrl": "светло",
     "srpLatn": "svetlo",
-    "rus": ["свет"],
+    "rus": ["освещение", "свет"],
     "eng": ["light"]
   },
   {
@@ -8053,7 +8053,7 @@
     "id": 1150,
     "srpCyrl": "спавање",
     "srpLatn": "spavanje",
-    "rus": ["сон"],
+    "rus": ["сон", "спаньё"],
     "eng": ["sleep"]
   },
   {
@@ -8179,14 +8179,14 @@
     "id": 1168,
     "srpCyrl": "допадати",
     "srpLatn": "dopadati",
-    "rus": ["нравиться", "понравиться"],
+    "rus": ["понравиться", "нравиться"],
     "eng": ["to like", "to be liked"]
   },
   {
     "id": 1169,
     "srpCyrl": "завезати",
     "srpLatn": "zavezati",
-    "rus": ["завязать", "завязывать"],
+    "rus": ["завязывать", "завязать"],
     "eng": ["to tie", "to knot"]
   },
   {
@@ -8228,7 +8228,7 @@
     "id": 1175,
     "srpCyrl": "мрдати",
     "srpLatn": "mrdati",
-    "rus": ["двигаться", "шевелиться", "двигать", "шевелить"],
+    "rus": ["шевелиться", "двигаться", "двигать"],
     "eng": ["to move", "to stir"]
   },
   {
@@ -8345,10 +8345,10 @@
   },
   {
     "id": 1192,
-    "srpCyrl": "спасти",
-    "srpLatn": "spasti",
-    "rus": ["спасти", "спасать"],
-    "eng": ["to save", "to rescue"]
+    "srpCyrl": "размишљати",
+    "srpLatn": "razmišljati",
+    "rus": ["размышлять", "думать"],
+    "eng": ["to ponder", "to think", "to reflect"]
   },
   {
     "id": 1193,
