@@ -66,7 +66,7 @@ export default function BottomBar({ view, onNavigate, viewedCount, answeredCount
               top: '-2.3rem',
               left: '50%',
               transform: 'translateX(-50%)',
-              width: '100%',
+              whiteSpace: 'nowrap',
             }}
             className={`text-xs text-center pointer-events-none transition-all duration-1000 ${pctColor}`}
           >
