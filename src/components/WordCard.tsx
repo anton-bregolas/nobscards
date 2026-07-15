@@ -420,10 +420,10 @@ const WordCard = forwardRef<HTMLDivElement, WordCardProps>(function WordCard({ w
     frontAlt = refLang ? displayText(shown[dictMeta.langFrom]) : displayText(shown[dictMeta.langRef])
   } else if (isWordsType && isPB) {
     frontPrimary = (refLang && dictMeta.langToAlt && shown[dictMeta.langToAlt] != null)
-      ? displayText(shown[dictMeta.langToAlt])
-      : displayText(shown[dictMeta.langTo])
+      ? firstText(shown[dictMeta.langToAlt])
+      : firstText(shown[dictMeta.langTo])
   } else if (!isWordsType && isPB) {
-    frontPrimary = refLang ? displayText(shown[dictMeta.langRef]) : displayText(shown[dictMeta.langFrom])
+    frontPrimary = refLang ? firstText(shown[dictMeta.langRef]) : firstText(shown[dictMeta.langFrom])
   } else {
     frontPrimary = (refLang && dictMeta.langToAlt && shown[dictMeta.langToAlt] != null)
       ? firstText(shown[dictMeta.langToAlt])
@@ -445,21 +445,21 @@ const WordCard = forwardRef<HTMLDivElement, WordCardProps>(function WordCard({ w
     subheadMode = 'toggle'
     hasToggle = dictMeta.langToAlt != null && shown[dictMeta.langToAlt] != null
     if (refLang) {
-      togglePrimary = hasToggle ? displayText(shown[dictMeta.langToAlt]) : displayText(shown[dictMeta.langTo])
-      toggleAlt = displayText(shown[dictMeta.langTo])
+      togglePrimary = hasToggle ? firstText(shown[dictMeta.langToAlt]) : firstText(shown[dictMeta.langTo])
+      toggleAlt = firstText(shown[dictMeta.langTo])
     } else {
-      togglePrimary = displayText(shown[dictMeta.langTo])
-      toggleAlt = hasToggle ? displayText(shown[dictMeta.langToAlt]) : ''
+      togglePrimary = firstText(shown[dictMeta.langTo])
+      toggleAlt = hasToggle ? firstText(shown[dictMeta.langToAlt]) : ''
     }
   } else if (!isWordsType && isPB) {
     subheadMode = 'toggle'
     hasToggle = dictMeta.langRef != null && shown[dictMeta.langRef] != null
     if (refLang) {
-      togglePrimary = hasToggle ? displayText(shown[dictMeta.langRef]) : displayText(shown[dictMeta.langFrom])
-      toggleAlt = displayText(shown[dictMeta.langFrom])
+      togglePrimary = hasToggle ? firstText(shown[dictMeta.langRef]) : firstText(shown[dictMeta.langFrom])
+      toggleAlt = firstText(shown[dictMeta.langFrom])
     } else {
-      togglePrimary = displayText(shown[dictMeta.langFrom])
-      toggleAlt = hasToggle ? displayText(shown[dictMeta.langRef]) : ''
+      togglePrimary = firstText(shown[dictMeta.langFrom])
+      toggleAlt = hasToggle ? firstText(shown[dictMeta.langRef]) : ''
     }
   } else {
     subheadMode = 'toggle'
