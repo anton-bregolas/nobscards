@@ -1,4 +1,4 @@
-const PUNCTUATION = /[.,!?;:"“”'‘«»()\[\]{}—–\-…/\\@#$%^&*_+=\|~`<>]/g
+const PUNCTUATION = /[.,!?;:"“”'‘«»()[\]{}—–\-…/\\@#$%^&*_+=|~`<>]/g
 
 const RUSSIAN_NORMALIZE: Record<string, string> = {
   ё: 'е',

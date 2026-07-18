@@ -91,17 +91,18 @@ const WordCard = forwardRef<HTMLDivElement, WordCardProps>(function WordCard({ w
 
   useEffect(() => {
     if (prevWordId.current !== null && prevWordId.current !== word.id) {
-      if (!isDraggingRef.current) {
+      const wasSwipe = committedRef.current
+      if (!isDraggingRef.current && !wasSwipe) {
         setDragOffset(0)
         setDragSettling(false)
         dragSettlingRef.current = false
         committedRef.current = false
       }
-      setTextVisible(false)
+      if (!wasSwipe) setTextVisible(false)
       const swapTimer = setTimeout(() => {
         setDisplayWord(word)
         setTextVisible(true)
-      }, 180)
+      }, wasSwipe ? 0 : 180)
       prevWordId.current = word.id
       return () => { clearTimeout(swapTimer) }
     } else {

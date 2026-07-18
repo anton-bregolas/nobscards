@@ -10,8 +10,8 @@ interface LearnedTableProps {
   phrasebookMode: boolean
   useAltInputLang: boolean
   useRefLangForLabels: boolean
-  sortTablesBy: string[]
-  onSortTablesBy: (arr: string[]) => void
+  sortLearnedBy: string[]
+  onSortLearnedBy: (arr: string[]) => void
 }
 
 type SortKey = 'word' | 'date' | 'acc'
@@ -36,16 +36,16 @@ function firstText(v: string | string[] | number | null | undefined): string {
   return String(v)
 }
 
-export default function LearnedTable({ learned, words, dictMeta, onToggleLearned, phrasebookMode, useAltInputLang, useRefLangForLabels, sortTablesBy, onSortTablesBy }: LearnedTableProps) {
+export default function LearnedTable({ learned, words, dictMeta, onToggleLearned, phrasebookMode, useAltInputLang, useRefLangForLabels, sortLearnedBy, onSortLearnedBy }: LearnedTableProps) {
   const { t } = useTranslation()
   const availableKeys = phrasebookMode ? (['acc', 'word', 'date'] as SortKey[]) : (['date', 'word'] as SortKey[])
   const [sortKey, sortDir] = useMemo(() => {
-    for (const e of sortTablesBy) {
+    for (const e of sortLearnedBy) {
       const [k] = parseSortEntry(e)
       if (availableKeys.includes(k)) return parseSortEntry(e)
     }
     return ['date', 'desc'] as [SortKey, SortDir]
-  }, [sortTablesBy, phrasebookMode])
+  }, [sortLearnedBy, phrasebookMode])
   const [pressedId, setPressedId] = useState<number | null>(null)
   const [swipe, setSwipe] = useState<{ id: number; offset: number; settled: boolean } | null>(null)
   const [sortAnnouncement, setSortAnnouncement] = useState('')
@@ -122,14 +122,14 @@ export default function LearnedTable({ learned, words, dictMeta, onToggleLearned
     if (key === sortKey) {
       const next: SortDir = sortDir === 'asc' ? 'desc' : 'asc'
       const entry = `${key}_${next}`
-      onSortTablesBy([entry, ...sortTablesBy.filter(e => parseSortEntry(e)[0] !== key)])
+      onSortLearnedBy([entry, ...sortLearnedBy.filter(e => parseSortEntry(e)[0] !== key)])
       setSortAnnouncement(t('sort.changed', { label: t(dirKeys[key][next] as 'sort.alphaAz') }))
     } else {
       const entry = `${key}_${defaultDir}`
-      onSortTablesBy([entry, ...sortTablesBy.filter(e => parseSortEntry(e)[0] !== key)])
+      onSortLearnedBy([entry, ...sortLearnedBy.filter(e => parseSortEntry(e)[0] !== key)])
       setSortAnnouncement(t('sort.changed', { label: t(dirKeys[key][defaultDir] as 'sort.alphaAz') }))
     }
-  }, [sortKey, sortDir, sortTablesBy, onSortTablesBy, t])
+  }, [sortKey, sortDir, sortLearnedBy, onSortLearnedBy, t])
 
   const moveTo = useCallback((row: number, col: number): boolean => {
     const el = tableRef.current?.querySelector<HTMLElement>(

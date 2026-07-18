@@ -21,7 +21,8 @@
   "settings.wrongAttempts": "neuspešnih pokušaja",
   "settings.phrasebook": "Koristi rečnik fraza sa uslovom:",
   "settings.phrasebookGroup": "Prag poklapanja za rečnik fraza",
-  "settings.phrasebookThreshold": "% poklapanja za tačan odgovor",
+  "settings.phrasebookThreshold": "% poklapanja za priznavanje odgovora",
+  "settings.autoAddRankedToFavorites": "Automatski dodaj ocenjene reči u omiljene",
   "settings.useAltInput": "Koristi alternativni jezik unosa (ako postoji)",
   "settings.useRefLang": "Koristi referentni jezik u tekstovima zadataka (ako postoji)",
   "settings.saveProgress": "Sačuvaj napredak",
@@ -30,6 +31,14 @@
   "settings.resetData": "Resetuj podatke",
   "settings.decrease": "Smanji broj",
   "settings.increase": "Povećaj broj",
+  "settings.learningAgainGroup": "Podesite interval ponavljanja za reči sa ocenom „Ponovi” u minutima",
+  "settings.learningAgain": "Interval ponavljanja za reči ocenjene sa „Ponovi” (😳)",
+  "settings.learningGoodGroup": "Podesite interval ponavljanja za reči sa ocenom „U redu” u minutima",
+  "settings.learningGood": "Interval ponavljanja za reči ocenjene sa „U redu” (🙂)",
+
+  "settings.timeUnitMinutes1": "minut",
+  "settings.timeUnitMinutes234": "minuta",
+  "settings.timeUnitMinutes56789": "minuta",
 
   "dict.changeTitle": "Promeniti rečnik?",
   "dict.changeDesc": "Svi podaci (omiljene, naučeno, brojači) biće resetovani.",
@@ -53,11 +62,14 @@
   "sort.accDesc": "po tačnosti, od većeg ka manjem",
   "sort.dateAsc": "po datumu, od ranijih ka kasnijim",
   "sort.dateDesc": "po datumu, od kasnijih ka ranijim",
+  "sort.rankAsc": "po oceni, od nižih ka višim",
+  "sort.rankDesc": "po oceni, od viših ka nižim",
   "sort.changed": "Sortiranje promenjeno: {{label}}",
   "sort.wordHeader": "Sortiraj po azbuci. Kliknite na ćeliju reči da vidite prevod",
   "sort.wikiHeader": "Veza ka stranici reči na Wiktionary-ju",
   "sort.accHeader": "Sortiraj po tačnosti poslednjeg unosa",
   "sort.dateHeader": "Sortiraj po datumu dodavanja",
+  "sort.srsHeader": "Poslednja ocena",
   "sort.removeHeader": "Ukloni iz liste",
 
   "favorites.empty": "Još nema reči u omiljenim",
@@ -86,5 +98,16 @@
 
   "home.completed": "Sve reči naučene. Čestitamo!",
 
-  "dict.loaded": "je učitan"
+  "dict.loaded": "je učitan",
+
+  "srs.again": "Ponovi",
+  "srs.againDesc": "Ne sećam se",
+  "srs.hard": "Teško",
+  "srs.hardDesc": "Jedva sam se setio",
+  "srs.good": "U redu",
+  "srs.goodDesc": "Treba još malo da se učvrsti",
+  "srs.easy": "Lako",
+  "srs.easyDesc": "Odmah mi pada na pamet",
+  "srs.skip": "Preskoči",
+  "srs.skipDesc": "Pretendujem da nisam video"
 }

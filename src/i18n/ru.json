@@ -22,6 +22,7 @@
   "settings.phrasebook": "Использовать режим разговорника с условием:",
   "settings.phrasebookGroup": "Выберите порог совпадения разговорника",
   "settings.phrasebookThreshold": "% совпадения для засчитывания ответа",
+  "settings.autoAddRankedToFavorites": "Автоматически добавлять слова с оценкой в избранное",
   "settings.useAltInput": "Использовать альтернативный язык ввода (при наличии)",
   "settings.useRefLang": "Использовать язык справки в текстах заданий (при наличии)",
   "settings.saveProgress": "Сохранить прогресс",
@@ -30,6 +31,14 @@
   "settings.resetData": "Сбросить данные",
   "settings.decrease": "Уменьшить число",
   "settings.increase": "Увеличить число",
+  "settings.learningAgainGroup": "Настройте интервал повтора для слов с оценкой «Повторить» в минутах",
+  "settings.learningAgain": "Интервал повтора слов с оценкой «Повторить» (😳)",
+  "settings.learningGoodGroup": "Настройте интервал повтора для слов с оценкой «Хорошо» в минутах",
+  "settings.learningGood": "Интервал повтора слов с оценкой «Хорошо» (🙂)",
+
+  "settings.timeUnitMinutes1": "минута",
+  "settings.timeUnitMinutes234": "минуты",
+  "settings.timeUnitMinutes56789": "минут",
 
   "dict.changeTitle": "Сменить словарь?",
   "dict.changeDesc": "Все данные (избранное, пройденное, счётчики) будут сброшены.",
@@ -53,11 +62,14 @@
   "sort.accDesc": "по точности, от большего к меньшему",
   "sort.dateAsc": "по дате, от ранних к поздним",
   "sort.dateDesc": "по дате, от поздних к ранним",
+  "sort.rankAsc": "по оценке, от низких к высоким",
+  "sort.rankDesc": "по оценке, от высоких к низким",
   "sort.changed": "Сортировка изменена: {{label}}",
   "sort.wordHeader": "Сортировать по алфавиту. Нажмите на ячейку слова, чтобы увидеть перевод",
   "sort.wikiHeader": "Открыть страницу слова на Wiktionary",
   "sort.accHeader": "Сортировать по точности последнего ввода",
   "sort.dateHeader": "Сортировать по дате добавления",
+  "sort.srsHeader": "Последняя оценка",
   "sort.removeHeader": "Удалить из списка",
 
   "favorites.empty": "В избранном пока нет слов",
@@ -86,5 +98,16 @@
 
   "home.completed": "Все слова выучены. Поздравляю!",
 
-  "dict.loaded": "загружен"
+  "dict.loaded": "загружен",
+
+  "srs.again": "Повторить",
+  "srs.againDesc": "Не помню",
+  "srs.hard": "Сложно",
+  "srs.hardDesc": "Вспомнилось с трудом",
+  "srs.good": "Хорошо",
+  "srs.goodDesc": "Осталось слегка закрепить",
+  "srs.easy": "Легко",
+  "srs.easyDesc": "Сразу приходит в голову",
+  "srs.skip": "Пропустить",
+  "srs.skipDesc": "Притворюсь, что не видел"
 }

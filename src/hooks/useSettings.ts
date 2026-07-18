@@ -3,15 +3,19 @@ import type { AppSettings } from '../types'
 import { useLocalStorage } from './useLocalStorage'
 
 const defaultSettings: AppSettings = {
-  autoFlipOnWrong: false,
+  autoFlipOnWrongAttempts: false,
   autoAdvanceOnLearn: false,
   autoAddAnsweredToLearned: false,
   phrasebookMode: false,
   phrasebookThreshold: 75,
   useAltInputLang: false,
   useRefLangForLabels: false,
-  sortTablesBy: ['date_desc'],
+  sortFavoritesBy: ['date_desc'],
+  sortLearnedBy: ['date_desc'],
   language: 'ru',
+  customIntervalAgain: false,
+  customIntervalGood: false,
+  autoAddRankedToFavorites: false,
 }
 
 export function useSettings() {

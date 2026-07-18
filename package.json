@@ -1,6 +1,6 @@
 {
-  "name": "nobscards",
-  "private": false,
+  "name": "nobs-fsrs-cards",
+  "private": true,
   "version": "0.0.1",
   "packageManager": "pnpm@11.12.0",
   "type": "module",
@@ -9,27 +9,36 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "lint:css": "pnpm stylelint \"**/*.css\"",
-    "lint:css-fix": "pnpm stylelint \"**/*.css\" --fix"
+    "testrun": "vitest --run",
+    "test": "vitest",
+    "lintcss": "pnpm stylelint \"**/*.css\"",
+    "lintcssfix": "pnpm stylelint \"**/*.css\" --fix",
+    "release": "commit-and-tag-version"
   },
   "dependencies": {
     "bootstrap-icons": "^1.13.1",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react-dom": "^19.2.7",
+    "ts-fsrs": "^5.4.1"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.3.2",
+    "@tailwindcss/vite": "^4.3.3",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
-    "oxlint": "^1.73.0",
+    "commit-and-tag-version": "^13.0.0",
+    "happy-dom": "^20.10.6",
+    "oxlint": "^1.74.0",
     "stylelint": "^17.14.0",
     "stylelint-config-standard": "^40.0.0",
     "stylelint-config-tailwindcss": "^1.0.1",
-    "tailwindcss": "^4.3.2",
-    "typescript": "~6.0.3",
-    "vite": "^8.1.4",
-    "vite-plugin-singlefile": "^2.3.3"
+    "tailwindcss": "^4.3.3",
+    "typescript": "~7.0.2",
+    "vite": "^8.1.5",
+    "vite-plugin-singlefile": "^2.3.3",
+    "vitest": "^4.1.10"
   }
 }

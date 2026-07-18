@@ -12,10 +12,8 @@ export const APP_LANGUAGES: Record<string, string> = {
   sr: 'Srpski',
 }
 
-type RuKey = keyof typeof ru
-
 interface I18nValue {
-  t: (key: RuKey, params?: Record<string, string | number>) => string
+  t: (key: string, params?: Record<string, string | number>) => string
 }
 
 const I18nCtx = createContext<I18nValue>({
@@ -43,4 +41,13 @@ export function I18nProvider({ lang, children }: { lang: string; children: React
 
 export function useTranslation() {
   return useContext(I18nCtx)
+}
+
+export function timeUnitKey(n: number): string {
+  const mod10 = n % 10
+  const mod100 = n % 100
+  if (mod10 === 1 && mod100 !== 11) return 'settings.timeUnitMinutes1'
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14))
+    return 'settings.timeUnitMinutes234'
+  return 'settings.timeUnitMinutes56789'
 }

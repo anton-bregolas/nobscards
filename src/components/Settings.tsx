@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import type { AppSettings, ExportedData, Word, DictMeta } from '../types'
-import { useTranslation, APP_LANGUAGES } from '../i18n'
+import { useTranslation, APP_LANGUAGES, timeUnitKey } from '../i18n'
 
 interface SettingsProps {
   settings: AppSettings
@@ -26,7 +26,13 @@ export default function Settings({
   initialDictName,
 }: SettingsProps) {
   const [pendingWrong, setPendingWrong] = useState(
-    typeof settings.autoFlipOnWrong === 'number' ? settings.autoFlipOnWrong : 3,
+    typeof settings.autoFlipOnWrongAttempts === 'number' ? settings.autoFlipOnWrongAttempts : 3,
+  )
+  const [pendingAgain, setPendingAgain] = useState(
+    typeof settings.customIntervalAgain === 'number' ? settings.customIntervalAgain : 1,
+  )
+  const [pendingGood, setPendingGood] = useState(
+    typeof settings.customIntervalGood === 'number' ? settings.customIntervalGood : 10,
   )
   const { t } = useTranslation()
   const [importError, setImportError] = useState('')
@@ -92,8 +98,12 @@ export default function Settings({
     }
   }, [])
 
-  const wrongEnabled = typeof settings.autoFlipOnWrong === 'number'
-  const wrongValue: number = wrongEnabled ? (settings.autoFlipOnWrong as number) : pendingWrong
+  const customWrongAttempsOn = typeof settings.autoFlipOnWrongAttempts === 'number'
+  const wrongValue: number = customWrongAttempsOn ? (settings.autoFlipOnWrongAttempts as number) : pendingWrong
+  const customAgainIntervalOn = typeof settings.customIntervalAgain === 'number'
+  const againValue: number = customAgainIntervalOn ? (settings.customIntervalAgain as number) : pendingAgain
+  const customGoodIntervalOn = typeof settings.customIntervalGood === 'number'
+  const goodValue: number = customGoodIntervalOn ? (settings.customIntervalGood as number) : pendingGood
 
   const showPopover = (el: HTMLDivElement | null) => {
     requestAnimationFrame(() => el?.showPopover())
@@ -219,49 +229,167 @@ export default function Settings({
         </div>
       </fieldset>
 
-      <label className="flex items-start gap-3 cursor-pointer group pt-2">
-        <input
-          type="checkbox"
-          checked={settings.autoAdvanceOnLearn}
-          onChange={() =>
-            onUpdate({
-              ...settings,
-              autoAdvanceOnLearn: !settings.autoAdvanceOnLearn,
-            })
-          }
-          className="mt-0.5"
-        />
-        <span className="text-sm text-text leading-relaxed group-hover:text-accent group-focus-visible:text-accent transition-colors duration-150">
-          {t('settings.autoAdvance')}
-        </span>
-      </label>
+      <div className="space-y-3" role="group" aria-label={t('settings.learningAgainGroup')} onKeyDown={handleStepperKeyDown}>
+        <label className="flex items-start gap-3 cursor-pointer group">
+          <input
+            type="checkbox"
+            checked={customAgainIntervalOn}
+            onChange={() =>
+              onUpdate({
+                ...settings,
+                customIntervalAgain: customAgainIntervalOn ? false : pendingAgain,
+              })
+            }
+            className="mt-0.5"
+            data-stepper
+          />
+          <span className="text-sm text-text leading-relaxed group-hover:text-accent group-focus-visible:text-accent transition-colors duration-150">
+            {t('settings.learningAgain')}
+          </span>
+        </label>
+        <div className="flex max-sm:flex-col max-sm:items-start sm:items-center gap-3 ml-8">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                const v = Math.max(1, againValue - 1)
+                setPendingAgain(v)
+                if (customAgainIntervalOn) onUpdate({ ...settings, customIntervalAgain: v })
+              }}
+              disabled={!customAgainIntervalOn}
+              tabIndex={-1}
+              data-stepper
+              className="w-8 h-8 shrink-0 rounded-full bg-subhead/20 text-subhead flex items-center justify-center text-lg transition-all duration-150 hover:bg-subhead/40 focus-visible:bg-subhead/40 disabled:opacity-30 disabled:cursor-not-allowed focus-ring focus-circle"
+              title={t('settings.decrease')}
+              aria-label={t('settings.decrease')}
+            >
+              <i className="bi bi-dash" />
+            </button>
+            <input
+              type="text"
+              inputMode="numeric"
+              value={againValue}
+              onFocus={(e) => e.target.select()}
+              onChange={(e) => {
+                const cleaned = e.target.value.replace(/\D/g, '')
+                const v = cleaned === '' ? 1 : Math.min(9, parseInt(cleaned, 10))
+                setPendingAgain(v)
+                if (customAgainIntervalOn) onUpdate({ ...settings, customIntervalAgain: v })
+              }}
+              onBlur={() => {
+                const v = Math.min(9, Math.max(1, againValue))
+                setPendingAgain(v)
+                if (customAgainIntervalOn) onUpdate({ ...settings, customIntervalAgain: v })
+              }}
+              disabled={!customAgainIntervalOn}
+              tabIndex={-1}
+              data-stepper
+              className="text-lg font-mono text-accent w-10 text-center bg-transparent border-none outline-none p-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none caret-caret"
+            />
+            <button
+              onClick={() => {
+                const v = Math.min(9, againValue + 1)
+                setPendingAgain(v)
+                if (customAgainIntervalOn) onUpdate({ ...settings, customIntervalAgain: v })
+              }}
+              disabled={!customAgainIntervalOn}
+              tabIndex={-1}
+              data-stepper
+              className="w-8 h-8 shrink-0 rounded-full bg-subhead/20 text-subhead flex items-center justify-center text-lg transition-all duration-150 hover:bg-subhead/40 focus-visible:bg-subhead/40 disabled:opacity-30 disabled:cursor-not-allowed focus-ring focus-circle"
+              title={t('settings.increase')}
+              aria-label={t('settings.increase')}
+            >
+              <i className="bi bi-plus" />
+            </button>
+          </div>
+          <span className="text-sm text-text opacity-60">{t(timeUnitKey(againValue))}</span>
+        </div>
+      </div>
 
-      <label className="flex items-start gap-3 cursor-pointer group">
-        <input
-          type="checkbox"
-          checked={settings.autoAddAnsweredToLearned}
-          onChange={() =>
-            onUpdate({
-              ...settings,
-              autoAddAnsweredToLearned: !settings.autoAddAnsweredToLearned,
-            })
-          }
-          className="mt-0.5"
-        />
-        <span className="text-sm text-text leading-relaxed group-hover:text-accent group-focus-visible:text-accent transition-colors duration-150">
-          {t('settings.autoAddAnswered')}
-        </span>
-      </label>
+      <div className="space-y-3" role="group" aria-label={t('settings.learningGoodGroup')} onKeyDown={handleStepperKeyDown}>
+        <label className="flex items-start gap-3 cursor-pointer group">
+          <input
+            type="checkbox"
+            checked={customGoodIntervalOn}
+            onChange={() =>
+              onUpdate({
+                ...settings,
+                customIntervalGood: customGoodIntervalOn ? false : pendingGood,
+              })
+            }
+            className="mt-0.5"
+            data-stepper
+          />
+          <span className="text-sm text-text leading-relaxed group-hover:text-accent group-focus-visible:text-accent transition-colors duration-150">
+            {t('settings.learningGood')}
+          </span>
+        </label>
+        <div className="flex max-sm:flex-col max-sm:items-start sm:items-center gap-3 ml-8">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                const v = Math.max(10, goodValue - 10)
+                setPendingGood(v)
+                if (customGoodIntervalOn) onUpdate({ ...settings, customIntervalGood: v })
+              }}
+              disabled={!customGoodIntervalOn}
+              tabIndex={-1}
+              data-stepper
+              className="w-8 h-8 shrink-0 rounded-full bg-subhead/20 text-subhead flex items-center justify-center text-lg transition-all duration-150 hover:bg-subhead/40 focus-visible:bg-subhead/40 disabled:opacity-30 disabled:cursor-not-allowed focus-ring focus-circle"
+              title={t('settings.decrease')}
+              aria-label={t('settings.decrease')}
+            >
+              <i className="bi bi-dash" />
+            </button>
+            <input
+              type="text"
+              inputMode="numeric"
+              value={goodValue}
+              onFocus={(e) => e.target.select()}
+              onChange={(e) => {
+                const cleaned = e.target.value.replace(/\D/g, '')
+                const v = cleaned === '' ? 10 : Math.min(90, parseInt(cleaned, 10))
+                setPendingGood(v)
+                if (customGoodIntervalOn) onUpdate({ ...settings, customIntervalGood: v })
+              }}
+              onBlur={() => {
+                const v = Math.min(90, Math.max(10, goodValue))
+                setPendingGood(v)
+                if (customGoodIntervalOn) onUpdate({ ...settings, customIntervalGood: v })
+              }}
+              disabled={!customGoodIntervalOn}
+              tabIndex={-1}
+              data-stepper
+              className="text-lg font-mono text-accent w-10 text-center bg-transparent border-none outline-none p-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none caret-caret"
+            />
+            <button
+              onClick={() => {
+                const v = Math.min(90, goodValue + 10)
+                setPendingGood(v)
+                if (customGoodIntervalOn) onUpdate({ ...settings, customIntervalGood: v })
+              }}
+              disabled={!customGoodIntervalOn}
+              tabIndex={-1}
+              data-stepper
+              className="w-8 h-8 shrink-0 rounded-full bg-subhead/20 text-subhead flex items-center justify-center text-lg transition-all duration-150 hover:bg-subhead/40 focus-visible:bg-subhead/40 disabled:opacity-30 disabled:cursor-not-allowed focus-ring focus-circle"
+              title={t('settings.increase')}
+              aria-label={t('settings.increase')}
+            >
+              <i className="bi bi-plus" />
+            </button>
+          </div>
+          <span className="text-sm text-text opacity-60">{t(timeUnitKey(goodValue))}</span>
+        </div>
+      </div>
 
       <div className="space-y-3" role="group" aria-label={t('settings.autoFlipGroup')} onKeyDown={handleStepperKeyDown}>
         <label className="flex items-start gap-3 cursor-pointer group">
           <input
             type="checkbox"
-            checked={wrongEnabled}
+            checked={customWrongAttempsOn}
             onChange={() =>
               onUpdate({
                 ...settings,
-                autoFlipOnWrong: wrongEnabled ? false : pendingWrong,
+                autoFlipOnWrongAttempts: customWrongAttempsOn ? false : pendingWrong,
               })
             }
             className="mt-0.5"
@@ -277,9 +405,9 @@ export default function Settings({
               onClick={() => {
                 const v = Math.max(1, wrongValue - 1)
                 setPendingWrong(v)
-                if (wrongEnabled) onUpdate({ ...settings, autoFlipOnWrong: v })
+                if (customWrongAttempsOn) onUpdate({ ...settings, autoFlipOnWrongAttempts: v })
               }}
-              disabled={!wrongEnabled}
+              disabled={!customWrongAttempsOn}
               tabIndex={-1}
               data-stepper
               className="w-8 h-8 shrink-0 rounded-full bg-subhead/20 text-subhead flex items-center justify-center text-lg transition-all duration-150 hover:bg-subhead/40 focus-visible:bg-subhead/40 disabled:opacity-30 disabled:cursor-not-allowed focus-ring focus-circle"
@@ -297,14 +425,14 @@ export default function Settings({
                 const cleaned = e.target.value.replace(/\D/g, '')
                 const v = cleaned === '' ? 1 : Math.min(9, parseInt(cleaned, 10))
                 setPendingWrong(v)
-                if (wrongEnabled) onUpdate({ ...settings, autoFlipOnWrong: v })
+                if (customWrongAttempsOn) onUpdate({ ...settings, autoFlipOnWrongAttempts: v })
               }}
               onBlur={() => {
                 const v = Math.min(9, Math.max(1, wrongValue))
                 setPendingWrong(v)
-                if (wrongEnabled) onUpdate({ ...settings, autoFlipOnWrong: v })
+                if (customWrongAttempsOn) onUpdate({ ...settings, autoFlipOnWrongAttempts: v })
               }}
-              disabled={!wrongEnabled}
+              disabled={!customWrongAttempsOn}
               tabIndex={-1}
               data-stepper
               className="text-lg font-mono text-accent w-10 text-center bg-transparent border-none outline-none p-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none caret-caret"
@@ -313,9 +441,9 @@ export default function Settings({
               onClick={() => {
                 const v = Math.min(9, wrongValue + 1)
                 setPendingWrong(v)
-                if (wrongEnabled) onUpdate({ ...settings, autoFlipOnWrong: v })
+                if (customWrongAttempsOn) onUpdate({ ...settings, autoFlipOnWrongAttempts: v })
               }}
-              disabled={!wrongEnabled}
+              disabled={!customWrongAttempsOn}
               tabIndex={-1}
               data-stepper
               className="w-8 h-8 shrink-0 rounded-full bg-subhead/20 text-subhead flex items-center justify-center text-lg transition-all duration-150 hover:bg-subhead/40 focus-visible:bg-subhead/40 disabled:opacity-30 disabled:cursor-not-allowed focus-ring focus-circle"
@@ -400,6 +528,57 @@ export default function Settings({
           <span className="text-sm text-text opacity-60">{t('settings.phrasebookThreshold')}</span>
         </div>
       </div>
+
+      <label className="flex items-start gap-3 cursor-pointer group pt-2">
+        <input
+          type="checkbox"
+          checked={settings.autoAddRankedToFavorites}
+          onChange={() =>
+            onUpdate({
+              ...settings,
+              autoAddRankedToFavorites: !settings.autoAddRankedToFavorites,
+            })
+          }
+          className="mt-0.5"
+        />
+        <span className="text-sm text-text leading-relaxed group-hover:text-accent group-focus-visible:text-accent transition-colors duration-150">
+          {t('settings.autoAddRankedToFavorites')}
+        </span>
+      </label>
+
+      <label className="flex items-start gap-3 cursor-pointer group">
+        <input
+          type="checkbox"
+          checked={settings.autoAdvanceOnLearn}
+          onChange={() =>
+            onUpdate({
+              ...settings,
+              autoAdvanceOnLearn: !settings.autoAdvanceOnLearn,
+            })
+          }
+          className="mt-0.5"
+        />
+        <span className="text-sm text-text leading-relaxed group-hover:text-accent group-focus-visible:text-accent transition-colors duration-150">
+          {t('settings.autoAdvance')}
+        </span>
+      </label>
+
+      <label className="flex items-start gap-3 cursor-pointer group">
+        <input
+          type="checkbox"
+          checked={settings.autoAddAnsweredToLearned}
+          onChange={() =>
+            onUpdate({
+              ...settings,
+              autoAddAnsweredToLearned: !settings.autoAddAnsweredToLearned,
+            })
+          }
+          className="mt-0.5"
+        />
+        <span className="text-sm text-text leading-relaxed group-hover:text-accent group-focus-visible:text-accent transition-colors duration-150">
+          {t('settings.autoAddAnswered')}
+        </span>
+      </label>
 
       <label className="flex items-start gap-3 cursor-pointer group">
         <input

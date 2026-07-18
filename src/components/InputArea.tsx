@@ -130,8 +130,8 @@ const InputArea = forwardRef<HTMLInputElement, InputAreaProps>(function InputAre
         }, 400)
 
         if (
-          typeof settings.autoFlipOnWrong === 'number' &&
-          wrongAttempts + 1 >= settings.autoFlipOnWrong
+          typeof settings.autoFlipOnWrongAttempts === 'number' &&
+          wrongAttempts + 1 >= settings.autoFlipOnWrongAttempts
         ) {
           setInputDisabled(true)
           setTimeout(() => {

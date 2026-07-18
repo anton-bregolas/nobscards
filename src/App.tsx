@@ -1,8 +1,10 @@
 import { useMemo, useCallback, useState, useRef } from 'react'
-import type { View, StoredWord, Word, DictMeta, ExportedData } from './types'
+import type { View, StoredWord, SrsCard, Word, DictMeta, ExportedData } from './types'
 import { useSettings } from './hooks/useSettings'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { I18nProvider, useTranslation } from './i18n'
+import { createEmptyCard } from 'ts-fsrs'
+import { createScheduler, toCard, fromCard } from './utils/srs'
 import rawData from './data/words-srp-rus-1200.json'
 import TopBar from './components/TopBar'
 import BottomBar from './components/BottomBar'
@@ -25,6 +27,8 @@ const TOFROM_FAV = 'toFromFavorites'
 const TOFROM_LRN = 'toFromLearned'
 const TOFROM_ANS = 'toFromAnswered'
 const TOFROM_VIW = 'toFromViewed'
+const FROMTO_EXFAV = 'fromToExFavorites'
+const TOFROM_EXFAV = 'toFromExFavorites'
 
 function getToday(): string {
   return new Date().toISOString()
@@ -59,6 +63,11 @@ function App() {
   const [toFromAnswered, setToFromAnswered] = useModeStorage<number[]>(TOFROM_ANS, [])
   const [toFromViewed, setToFromViewed] = useModeStorage<number[]>(TOFROM_VIW, [])
 
+  const [fromToExFavorites, setFromToExFavorites] = useModeStorage<number[]>(FROMTO_EXFAV, [])
+  const [toFromExFavorites, setToFromExFavorites] = useModeStorage<number[]>(TOFROM_EXFAV, [])
+
+  const [srsCards, setSrsCards] = useLocalStorage<SrsCard[]>('srsCards', [])
+
   const pb = settings.phrasebookMode
 
   const favorites = pb ? toFromFavorites : fromToFavorites
@@ -69,6 +78,8 @@ function App() {
   const setAnswered = pb ? setToFromAnswered : setFromToAnswered
   const viewed = pb ? toFromViewed : fromToViewed
   const setViewed = pb ? setToFromViewed : setFromToViewed
+  const exFavorites = pb ? toFromExFavorites : fromToExFavorites
+  const setExFavorites = pb ? setToFromExFavorites : setFromToExFavorites
 
   const saveRef = useRef<HTMLButtonElement>(null)
   const homeInputRef = useRef<HTMLInputElement>(null)
@@ -92,6 +103,11 @@ function App() {
     const words = arr.slice(1) as Record<string, unknown>[]
     return words.map(normalizeWord)
   }, [])
+
+  const scheduler = useMemo(
+    () => createScheduler(settings.customIntervalAgain, settings.customIntervalGood),
+    [settings.customIntervalAgain, settings.customIntervalGood]
+  )
 
   const [resetKey, setResetKey] = useState(0)
   const [matchPct, setMatchPct] = useState<number | null>(null)
@@ -179,16 +195,19 @@ function App() {
         }
         return [...prev, item]
       })
+      setExFavorites((prev) => prev.filter((eid) => eid !== id))
     } else {
       setFavorites((prev) => prev.filter((f) => f.id !== id))
+      setExFavorites((prev) => prev.includes(id) ? prev : [...prev, id])
     }
-  }, [favorites, setFavorites, setLearned, matchPct, pb, learned])
+  }, [favorites, setFavorites, setLearned, matchPct, pb, learned, setExFavorites])
 
   const handleToggleLearned = useCallback((id: number) => {
     const isAlreadyLearned = learned.some((l) => l.id === id)
     if (!isAlreadyLearned) {
       const favAccuStat = favorites.find((f) => f.id === id)?.accuStat
       setFavorites((prev) => prev.filter((f) => f.id !== id))
+      setSrsCards((prev) => prev.filter((s) => s.id !== id))
       setLearned((prev) => {
         const existing = prev.find((l) => l.id === id)
         if (existing) return prev.filter((l) => l.id !== id)
@@ -203,7 +222,7 @@ function App() {
     } else {
       setLearned((prev) => prev.filter((l) => l.id !== id))
     }
-  }, [learned, setLearned, setFavorites, matchPct, pb, favorites])
+  }, [learned, setLearned, setFavorites, setSrsCards, matchPct, pb, favorites])
 
   const handleNavigate = useCallback((newView: View) => {
     setView(newView)
@@ -218,6 +237,9 @@ function App() {
     setToFromLearned([])
     setToFromAnswered([])
     setToFromViewed([])
+    setFromToExFavorites([])
+    setToFromExFavorites([])
+    setSrsCards([])
     const hasCustom = localStorage.getItem(CUSTOM_DICT_KEY) !== null
     if (hasCustom) {
       localStorage.removeItem(CUSTOM_DICT_KEY)
@@ -229,15 +251,19 @@ function App() {
     }
     localStorage.removeItem('cardsSettings')
     setSettings({
-      autoFlipOnWrong: false,
+      autoFlipOnWrongAttempts: false,
       autoAdvanceOnLearn: false,
+      autoAddRankedToFavorites: false,
       autoAddAnsweredToLearned: false,
       phrasebookMode: false,
       phrasebookThreshold: 75,
       useAltInputLang: false,
       useRefLangForLabels: false,
-      sortTablesBy: ['date_desc'],
+      sortFavoritesBy: ['date_desc'],
+      sortLearnedBy: ['date_desc'],
       language: 'ru',
+      customIntervalAgain: false,
+      customIntervalGood: false,
     })
     setResetKey((k) => k + 1)
   }, [setSettings])
@@ -245,7 +271,7 @@ function App() {
   const handleExport = useCallback(() => {
     const data: ExportedData = {
       dictId: dictionaryId,
-      version: 1,
+      version: 2,
       fromToFavorites,
       fromToLearned,
       fromToAnswered,
@@ -254,6 +280,9 @@ function App() {
       toFromLearned,
       toFromAnswered,
       toFromViewed,
+      fromToExFavorites,
+      toFromExFavorites,
+      srsCards,
     }
     const date = new Date().toISOString().slice(0, 10).replace(/-/g, '')
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
@@ -263,7 +292,7 @@ function App() {
     a.download = `nobscards-${date}-${dictionaryId}.json`
     a.click()
     URL.revokeObjectURL(url)
-  }, [dictionaryId, fromToFavorites, fromToLearned, fromToAnswered, fromToViewed, toFromFavorites, toFromLearned, toFromAnswered, toFromViewed])
+  }, [dictionaryId, fromToFavorites, fromToLearned, fromToAnswered, fromToViewed, toFromFavorites, toFromLearned, toFromAnswered, toFromViewed, fromToExFavorites, toFromExFavorites, srsCards])
 
   const handleImportData = useCallback((data: ExportedData) => {
     setFromToFavorites(Array.isArray(data.fromToFavorites) ? data.fromToFavorites : [])
@@ -274,6 +303,9 @@ function App() {
     setToFromLearned(Array.isArray(data.toFromLearned) ? data.toFromLearned : [])
     setToFromAnswered(Array.isArray(data.toFromAnswered) ? data.toFromAnswered : [])
     setToFromViewed(Array.isArray(data.toFromViewed) ? data.toFromViewed : [])
+    setFromToExFavorites(Array.isArray(data.fromToExFavorites) ? data.fromToExFavorites : [])
+    setToFromExFavorites(Array.isArray(data.toFromExFavorites) ? data.toFromExFavorites : [])
+    setSrsCards(data.version >= 2 && Array.isArray(data.srsCards) ? data.srsCards : [])
     setResetKey((k) => k + 1)
   }, [])
 
@@ -314,6 +346,7 @@ function App() {
     setToFromLearned([])
     setToFromAnswered([])
     setToFromViewed([])
+    setSrsCards([])
     setResetKey((k) => k + 1)
   }, [setSettings])
 
@@ -327,6 +360,24 @@ function App() {
     )
   }, [setFavorites])
 
+  const handleReviewSaved = useCallback((wordId: number, rating: number) => {
+    setSrsCards((prev) => {
+      const existing = prev.find((s) => s.id === wordId)
+      const addedAt = existing?.addedAt ?? getToday()
+      const base = existing ? toCard(existing) : { ...createEmptyCard(), id: wordId }
+      const result = scheduler.next(base, new Date(), rating)
+      const updated = fromCard(result.card, wordId, addedAt, rating)
+      if (existing) {
+        return prev.map((s) => (s.id === wordId ? updated : s))
+      }
+      return [...prev, updated]
+    })
+  }, [setSrsCards, scheduler])
+
+  const handleRemoveFromSrs = useCallback((wordId: number) => {
+    setSrsCards((prev) => prev.filter((s) => s.id !== wordId))
+  }, [setSrsCards])
+
   return (
     <I18nProvider lang={settings.language}>
     <div className="min-h-dvh flex flex-col bg-bg">
@@ -339,6 +390,8 @@ function App() {
             words={displayWords}
             favorites={favorites}
             learned={learned}
+            srsCards={srsCards}
+            exFavorites={exFavorites}
             settings={settings}
             dictMeta={displayMeta}
             currentView={view}
@@ -348,6 +401,9 @@ function App() {
             onAddAnswered={handleAddAnswered}
             onMatchResult={setMatchPct}
             onUpdateFavoriteAccuStat={handleUpdateFavoriteAccuStat}
+            onReviewSaved={handleReviewSaved}
+            onRemoveFromSrs={handleRemoveFromSrs}
+            scheduler={scheduler}
           />
         </div>
         {view === 'favorites' && (
@@ -358,12 +414,13 @@ function App() {
                 favorites={favorites}
                 words={displayWords}
                 dictMeta={displayMeta}
+                srsCards={srsCards}
                 onToggleFavorite={handleToggleFavorite}
                 phrasebookMode={settings.phrasebookMode}
                 useAltInputLang={settings.useAltInputLang}
                 useRefLangForLabels={settings.useRefLangForLabels}
-                sortTablesBy={settings.sortTablesBy}
-                onSortTablesBy={(arr) => setSettings({ ...settings, sortTablesBy: arr })}
+                sortFavoritesBy={settings.sortFavoritesBy}
+                onSortFavoritesBy={(arr) => setSettings({ ...settings, sortFavoritesBy: arr })}
               />
             </ErrorBoundary>
           </div>
@@ -380,8 +437,8 @@ function App() {
                 phrasebookMode={settings.phrasebookMode}
                 useAltInputLang={settings.useAltInputLang}
                 useRefLangForLabels={settings.useRefLangForLabels}
-                sortTablesBy={settings.sortTablesBy}
-                onSortTablesBy={(arr) => setSettings({ ...settings, sortTablesBy: arr })}
+                sortLearnedBy={settings.sortLearnedBy}
+                onSortLearnedBy={(arr) => setSettings({ ...settings, sortLearnedBy: arr })}
               />
             </ErrorBoundary>
           </div>

@@ -21,7 +21,8 @@
   "settings.wrongAttempts": "unsuccessful attempts",
   "settings.phrasebook": "Use Phrasebook Mode with match condition:",
   "settings.phrasebookGroup": "Phrasebook match threshold",
-  "settings.phrasebookThreshold": "% match to count as correct",
+  "settings.phrasebookThreshold": "% match to count as answered",
+  "settings.autoAddRankedToFavorites": "Automatically add rated words to Favorites",
   "settings.useAltInput": "Use alternative input language (if available)",
   "settings.useRefLang": "Use reference language in task labels (if available)",
   "settings.saveProgress": "Save progress",
@@ -30,6 +31,14 @@
   "settings.resetData": "Reset data",
   "settings.decrease": "Decrease value",
   "settings.increase": "Increase value",
+  "settings.learningAgainGroup": "Set the learning interval for cards rated Again in minutes",
+  "settings.learningAgain": "Repetition interval for words rated ‘Again’ (😳)",
+  "settings.learningGoodGroup": "Set the learning interval for cards rated Good in minutes",
+  "settings.learningGood": "Repetition interval for words rated ‘Good’ (🙂)",
+
+  "settings.timeUnitMinutes1": "minute",
+  "settings.timeUnitMinutes234": "minutes",
+  "settings.timeUnitMinutes56789": "minutes",
 
   "dict.changeTitle": "Change dictionary?",
   "dict.changeDesc": "All data (Favorites, Learned, counters) will be reset.",
@@ -53,11 +62,14 @@
   "sort.accDesc": "by accuracy, high to low",
   "sort.dateAsc": "by date, oldest first",
   "sort.dateDesc": "by date, newest first",
+  "sort.rankAsc": "by rank, lowest first",
+  "sort.rankDesc": "by rank, highest first",
   "sort.changed": "Sort changed: {{label}}",
   "sort.wordHeader": "Sort alphabetically. Click a word cell to see its translation",
   "sort.wikiHeader": "Link to word page on Wiktionary",
   "sort.accHeader": "Sort by last input accuracy",
   "sort.dateHeader": "Sort by date added",
+  "sort.srsHeader": "Last rank",
   "sort.removeHeader": "Remove from list",
 
   "favorites.empty": "No words in Favorites yet",
@@ -80,11 +92,22 @@
   "actions.addLearned": "Add to Learned (Don't show again)",
   "actions.removeLearned": "Remove from Learned",
 
-  "input.placeholder": "Enter translation ({{lang}})",
+  "input.placeholder": "Input translation ({{lang}})",
   "input.clearLabel": "Clear input field",
   "input.check": "Check your translation",
 
   "home.completed": "All words learned. Congratulations!",
 
-  "dict.loaded": "loaded"
+  "dict.loaded": "loaded",
+
+  "srs.again": "Again",
+  "srs.againDesc": "No idea",
+  "srs.hard": "Hard",
+  "srs.hardDesc": "Barely remembered",
+  "srs.good": "Good",
+  "srs.goodDesc": "Needs just a bit more work",
+  "srs.easy": "Easy",
+  "srs.easyDesc": "Nailed it immediately",
+  "srs.skip": "Skip",
+  "srs.skipDesc": "Pretend I didn't see"
 }

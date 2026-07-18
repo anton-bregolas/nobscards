@@ -1,20 +1,21 @@
 import { useState, useMemo, useRef, useEffect, useCallback, useLayoutEffect } from 'react'
-import type { StoredWord, Word, DictMeta } from '../types'
+import type { StoredWord, Word, DictMeta, SrsCard } from '../types'
 import { useTranslation } from '../i18n'
 
 interface FavoritesTableProps {
   favorites: StoredWord[]
   words: Word[]
   dictMeta: DictMeta
+  srsCards: SrsCard[]
   onToggleFavorite: (id: number) => void
   phrasebookMode: boolean
   useAltInputLang: boolean
   useRefLangForLabels: boolean
-  sortTablesBy: string[]
-  onSortTablesBy: (arr: string[]) => void
+  sortFavoritesBy: string[]
+  onSortFavoritesBy: (arr: string[]) => void
 }
 
-type SortKey = 'word' | 'date' | 'acc'
+type SortKey = 'word' | 'date' | 'acc' | 'rank'
 type SortDir = 'asc' | 'desc'
 
 function parseSortEntry(e: string): [SortKey, SortDir] {
@@ -36,16 +37,16 @@ function firstText(v: string | string[] | number | null | undefined): string {
   return String(v)
 }
 
-export default function FavoritesTable({ favorites, words, dictMeta, onToggleFavorite, phrasebookMode, useAltInputLang, useRefLangForLabels, sortTablesBy, onSortTablesBy }: FavoritesTableProps) {
+export default function FavoritesTable({ favorites, words, dictMeta, srsCards, onToggleFavorite, phrasebookMode, useAltInputLang, useRefLangForLabels, sortFavoritesBy, onSortFavoritesBy }: FavoritesTableProps) {
   const { t } = useTranslation()
-  const availableKeys = phrasebookMode ? (['acc', 'word', 'date'] as SortKey[]) : (['date', 'word'] as SortKey[])
+  const availableKeys = phrasebookMode ? (['acc', 'word', 'date', 'rank'] as SortKey[]) : (['date', 'word', 'rank'] as SortKey[])
   const [sortKey, sortDir] = useMemo(() => {
-    for (const e of sortTablesBy) {
+    for (const e of sortFavoritesBy) {
       const [k] = parseSortEntry(e)
       if (availableKeys.includes(k)) return parseSortEntry(e)
     }
     return ['date', 'desc'] as [SortKey, SortDir]
-  }, [sortTablesBy, phrasebookMode])
+  }, [sortFavoritesBy, phrasebookMode])
   const [pressedId, setPressedId] = useState<number | null>(null)
   const [swipe, setSwipe] = useState<{ id: number; offset: number; settled: boolean } | null>(null)
   const [sortAnnouncement, setSortAnnouncement] = useState('')
@@ -87,6 +88,12 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
     return map
   }, [words])
 
+  const srsMap = useMemo(() => {
+    const map = new Map<number, SrsCard>()
+    for (const s of srsCards) map.set(s.id, s)
+    return map
+  }, [srsCards])
+
   const sorted = useMemo(() => {
     const items = favorites
       .map((f) => ({ ...f, word: wordMap.get(f.id) }))
@@ -100,6 +107,10 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
         const aPct = a.accuStat?.length ? a.accuStat[a.accuStat.length - 1] : -1
         const bPct = b.accuStat?.length ? b.accuStat[b.accuStat.length - 1] : -1
         cmp = aPct - bPct
+      } else if (sortKey === 'rank') {
+        const aRank = srsMap.get(a.id)?.lastRating ?? -1
+        const bRank = srsMap.get(b.id)?.lastRating ?? -1
+        cmp = aRank - bRank
       } else {
         const sortField = phrasebookMode ? dictMeta.langTo : dictMeta.langRef
         const aVal = displayText(a.word![sortField])
@@ -110,7 +121,7 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
     })
 
     return items
-  }, [favorites, wordMap, sortKey, sortDir, phrasebookMode, dictMeta])
+  }, [favorites, wordMap, srsMap, sortKey, sortDir, phrasebookMode, dictMeta])
 
   const handleSort = useCallback((key: SortKey) => {
     const defaultDir: SortDir = key === 'date' ? 'desc' : 'asc'
@@ -118,18 +129,19 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
       word: { asc: 'sort.alphaAz', desc: 'sort.alphaZa' },
       acc: { asc: 'sort.accAsc', desc: 'sort.accDesc' },
       date: { asc: 'sort.dateAsc', desc: 'sort.dateDesc' },
+      rank: { asc: 'sort.rankAsc', desc: 'sort.rankDesc' },
     }
     if (key === sortKey) {
       const next: SortDir = sortDir === 'asc' ? 'desc' : 'asc'
       const entry = `${key}_${next}`
-      onSortTablesBy([entry, ...sortTablesBy.filter(e => parseSortEntry(e)[0] !== key)])
+      onSortFavoritesBy([entry, ...sortFavoritesBy.filter(e => parseSortEntry(e)[0] !== key)])
       setSortAnnouncement(t('sort.changed', { label: t(dirKeys[key][next] as 'sort.alphaAz') }))
     } else {
       const entry = `${key}_${defaultDir}`
-      onSortTablesBy([entry, ...sortTablesBy.filter(e => parseSortEntry(e)[0] !== key)])
+      onSortFavoritesBy([entry, ...sortFavoritesBy.filter(e => parseSortEntry(e)[0] !== key)])
       setSortAnnouncement(t('sort.changed', { label: t(dirKeys[key][defaultDir] as 'sort.alphaAz') }))
     }
-  }, [sortKey, sortDir, sortTablesBy, onSortTablesBy, t])
+  }, [sortKey, sortDir, sortFavoritesBy, onSortFavoritesBy, t])
 
   const moveTo = useCallback((row: number, col: number): boolean => {
     const el = tableRef.current?.querySelector<HTMLElement>(
@@ -239,8 +251,8 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
   }
 
   const wordLabel = phrasebookMode ? dictMeta.langTo.toUpperCase().slice(0, 2) : dictMeta.langFrom.toUpperCase().slice(0, 2)
-  const totalCols = phrasebookMode ? 5 : 4
-  const removeCol = phrasebookMode ? 4 : 3
+  const totalCols = phrasebookMode ? 6 : 5
+  const removeCol = phrasebookMode ? 5 : 4
 
   const findNextCell = (row: number, col: number, dRow: number, dCol: number): { row: number; col: number } | null => {
     let r = row
@@ -413,10 +425,11 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
   }
 
   const wordColIdx = 0
-  const wikiColIdx = 1
-  const accColIdx = phrasebookMode ? 2 : -1
-  const dateColIdx = phrasebookMode ? 3 : 2
-  const removeColIdx = phrasebookMode ? 4 : 3
+  const srsColIdx = 1
+  const wikiColIdx = 2
+  const accColIdx = phrasebookMode ? 3 : -1
+  const dateColIdx = phrasebookMode ? 4 : 3
+  const removeColIdx = phrasebookMode ? 5 : 4
 
   return (
     <div className="w-full max-w-[90%] mx-auto px-2 overflow-x-hidden">
@@ -489,6 +502,19 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
               onClick={() => handleSort('word')}
             >
               {wordLabel} {sortIcon('word')}
+            </th>
+            <th
+              role="columnheader"
+              className="min-w-[4.25rem] px-4 py-3 text-center text-sm font-medium text-subhead cursor-pointer select-none transition-colors duration-150 hover:text-accent focus-visible:text-accent max-[30em]:hidden"
+              data-row="0"
+              data-col={srsColIdx}
+              aria-colindex={srsColIdx + 1}
+              aria-sort={sortKey === 'rank' ? (sortDir === 'asc' ? 'ascending' : 'descending') : 'none'}
+              title={t('sort.srsHeader')}
+              aria-label={t('sort.srsHeader')}
+              onClick={() => handleSort('rank')}
+            >
+              <i className="bi bi-emoji-smile-fill" /> {sortIcon('rank')}
             </th>
             <th
               role="columnheader"
@@ -620,6 +646,26 @@ export default function FavoritesTable({ favorites, words, dictMeta, onToggleFav
                     } else {
                       return <span>{(useRefLangForLabels && dictMeta.langToAlt && w[dictMeta.langToAlt] != null) ? firstText(w[dictMeta.langToAlt]) : firstText(w[dictMeta.langTo])}</span>
                     }
+                  })()}
+                </td>
+                <td
+                  role="gridcell"
+                  className="px-4 py-3 text-center whitespace-nowrap max-[30em]:hidden"
+                  data-row={rowIndex}
+                  data-col={srsColIdx}
+                  aria-colindex={srsColIdx + 1}
+                >
+                  {(() => {
+                    const srs = srsMap.get(item.id)
+                    if (srs?.lastRating == null) return '—'
+                    const emojis = ['🫣', '😳', '😬', '🙂', '😎']
+                    const labels = ['srs.skip', 'srs.again', 'srs.hard', 'srs.good', 'srs.easy'] as const
+                    const descs = ['srs.skipDesc', 'srs.againDesc', 'srs.hardDesc', 'srs.goodDesc', 'srs.easyDesc'] as const
+                    const emoji = emojis[srs.lastRating] ?? '—'
+                    const label = labels[srs.lastRating] ? t(labels[srs.lastRating]) : ''
+                    const desc = descs[srs.lastRating] ? t(descs[srs.lastRating]) : ''
+                    const titleText = desc ? `${label}: ${desc}` : label
+                    return <span title={titleText} aria-label={titleText}>{emoji}</span>
                   })()}
                 </td>
                 <td

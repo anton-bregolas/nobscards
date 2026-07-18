@@ -1,9 +1,13 @@
 .local/*
 .vscode/*
-node_modules
 dist/
-*.log
+node_modules/
+scripts/
 .DS_Store
 .stylelintrc.json
-build_dict.py
+.versionrc
 AGENTS.md
+build_dict.py
+pnpm-workspace.yaml
+*.diff
+*.log
