@@ -1,0 +1,53 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [0.1.0](https://github.com/bregolas/nobscards/compare/v0.1.0) (2026-07-19)
+
+### ✨ Features
+
+* integrate FSRS spaced repetition algorithm ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* add free spaced repetition scheduler via ts-fsrs ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* add SRS review buttons rated Skip / Again / Hard / Good / Easy ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* implement SRS review commit on card change ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* persist uncommitted SRS ratings on tab close or refresh ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* implement priority display of SRS due-date cards ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* optionally add custom learning intervals for Again and Good ratings ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* auto-rate cards based on match percentage and input attempts ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* add independent sort preferences for Favorites and Learned tables ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* add SRS rating column in Favorites table ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* optionally auto-add rated words to Favorites ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* track ex-favorites to prevent auto-re-adding removed words ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* localize app to English, Russian, and Serbian ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+
+### 🐛 Bug Fixes
+
+* multiple synonyms in Phrasebook mode questions ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* bottom match status text wrapping ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* adjust Settings unit labels based on language ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+
+### 📦 Refactors
+
+* remove placeholder logic prioritizing Favorites ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* rename localStorage variables for clarity ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* separate sorting order storage for Favorites and Learned ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+
+### 🧪 Tests
+
+* add smoke test for App component rendering ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+
+### 🔨 Build
+
+* add vitest with happy-dom test environment ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* add commit-and-tag-version for release management ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+
+### ⚙️ Continuous Integrations
+
+* create custom pipeline for local build and commit ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* create custom pipeline for GitHub deploy and release ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+
+### ♻️ Chores
+
+* **release:** 0.1.0 ([b434a8d](https://github.com/bregolas/nobscards/commit/b434a8d2fe9ee7d0da23e6af31c8375afcc1f26c))
+* rename project to No BS FSRS / nobs-fsrs-cards ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
+* update README with FSRS and license documentation ([35ebbe8](https://github.com/bregolas/nobscards/commit/35ebbe85db20de41e7f87eb00938349317ad0bae))
