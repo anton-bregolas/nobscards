@@ -1,8 +1,8 @@
 
-# No BS FSRS: Cards with Spaced Repetition
+# No BS FSRS: Simple Cards with Spaced Repetition
 ### No AI Assistant. No Data Mining. Just Learning Words.
 
-**No BS FSRS** is a simple language flashcards app developed by [Anton Zille](https://github.com/anton-bregolas/). It is free, open source, contains no tracking or ads and does not require you to log in or store any personal information on the cloud. All the data is stored locally and you can save and restore your progress and dictionaries.
+**No BS FSRS** is a language flashcards app developed by [Anton Zille](https://github.com/anton-bregolas/). It is free, open source, contains no tracking or ads and does not require you to log in or store any personal information on the cloud. All the data is stored locally and you can save and restore your progress and dictionaries. It also works offline and can be installed as a Progressive Web App (PWA).
 
 The app integrates the FSRS v6 spaced repetition algorithm via [ts-fsrs](https://github.com/open-spaced-repetition/ts-fsrs) (MIT License).
 
@@ -10,7 +10,7 @@ The app is distributed under the terms of the GNU General Public License v3.0.
 
 ## How User Data is Stored
 
-The app user's progress is stored in the browser's Local Storage. You can save and restore your progress in the Settings section by exporting or importing backup files in the JSON format (Settings -> Save Progress / Restore Progress). You can replace the example dictionary with your own as long as it matches the DB format specified below (Settings -> Change Dictionary).
+The app user's progress and current dictionary is stored in the browser's Local Storage. You can save and restore your progress in the Settings section by exporting or importing backup files in the JSON format (Settings -> Save Progress / Restore Progress). You can replace the example dictionary with your own as long as it matches the DB format specified below (Settings -> Change Dictionary).
 
 ## How to Make Custom Dictionaries
 
@@ -28,9 +28,9 @@ A dictionary with type `phrases` automatically enables Phrasebook Mode setting a
 
 `langTo: lang` Use this to set the default language the user is expected to translate to.
 
-`langToAlt: lang` **Optional**: Use this to set an alternative language the user is expected to translate to (can be enabled in settings).
+`langToAlt: lang` **Optional**: Use this to set an alternative language the user is asked to translate to (can be enabled in settings).
 
-`langRef: lang` **Optional**: Use this to set an alternative language the user is expected to translate from / will see as the reference language on the flip side of the card.
+`langRef: lang` **Optional**: Use this to set an alternative language the user is asked to translate from / will see as the reference language on the flip side of the card.
 
 The three-letter [`ISO 639-3`](https://en.wikipedia.org/wiki/List_of_ISO_639-3_codes) language codes are recommended for `lang` strings.
 
