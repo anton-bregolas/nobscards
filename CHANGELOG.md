@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.1](https://github.com/bregolas/nobscards/compare/v0.1.0...v0.1.1) (2026-07-20)
+
+### ✨ Features
+
+* add PWA & full offline functionality ([d7331b4](https://github.com/bregolas/nobscards/commit/d7331b442bca622f8296e50d4c1b924e6e73f206))
+* update app favicon, add icons for app manifest ([d7331b4](https://github.com/bregolas/nobscards/commit/d7331b442bca622f8296e50d4c1b924e6e73f206))
+
+### 🔨 Build
+
+* add vite-plugin-pwa to handle PWA & auto-inject service worker during the build ([d7331b4](https://github.com/bregolas/nobscards/commit/d7331b442bca622f8296e50d4c1b924e6e73f206))
+
+### ♻️ Chores
+
+* **release:** 0.1.1 ([20eccbb](https://github.com/bregolas/nobscards/commit/20eccbb3b352087ab10565a50b25ef0a8e356fef))
+
 ## [0.1.0](https://github.com/bregolas/nobscards/compare/v0.1.0) (2026-07-19)
 
 ### ✨ Features
