@@ -1,4 +1,6 @@
 .local/*
+.opencode/*
+.testcoverage/*
 .vscode/*
 dist/
 node_modules/

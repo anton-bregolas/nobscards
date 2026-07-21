@@ -13,7 +13,8 @@
     "test": "vitest",
     "lintcss": "pnpm stylelint \"**/*.css\"",
     "lintcssfix": "pnpm stylelint \"**/*.css\" --fix",
-    "release": "commit-and-tag-version"
+    "release": "commit-and-tag-version",
+    "coverage": "vitest --coverage"
   },
   "dependencies": {
     "bootstrap-icons": "^1.13.1",
@@ -29,6 +30,7 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
+    "@vitest/coverage-v8": "^4.1.10",
     "commit-and-tag-version": "^13.0.0",
     "happy-dom": "^20.10.6",
     "oxlint": "^1.74.0",

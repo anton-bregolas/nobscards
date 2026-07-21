@@ -42,7 +42,23 @@ export default defineConfig({
   ],
   base: './',
   test: {
+    testTimeout: 15000,
     environment: 'happy-dom',
     setupFiles: ['./src/tests/setup.ts'],
+    include: ['src/tests/**/*.test.{ts,tsx}'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'lcov'],
+      reportsDirectory: '.testcoverage',
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: [
+        'src/**/*.d.ts',
+        'src/**/*.test.{ts,tsx}',
+        'src/tests/**',
+        'src/data/**',
+        'src/index.css',
+        'src/main.tsx',
+      ],
+    },
   },
 })
