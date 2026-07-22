@@ -659,4 +659,89 @@ describe('Home', () => {
       ).toBeInTheDocument()
     })
   })
+
+  describe('keyboard shortcuts', () => {
+    it('F2 toggles favorite', async () => {
+      const onToggleFavorite = vi.fn()
+      renderHome({ onToggleFavorite, words: [word1] })
+      await screen.findByRole('button', { name: /tap to see translation/i })
+      fireEvent.keyDown(window, { key: 'F2' })
+      expect(onToggleFavorite).toHaveBeenCalledWith(1)
+    })
+
+    it('Ctrl+Shift+F toggles favorite', async () => {
+      const onToggleFavorite = vi.fn()
+      renderHome({ onToggleFavorite, words: [word1] })
+      await screen.findByRole('button', { name: /tap to see translation/i })
+      fireEvent.keyDown(window, { key: 'f', ctrlKey: true, shiftKey: true })
+      expect(onToggleFavorite).toHaveBeenCalledWith(1)
+    })
+
+    it('F8 toggles learned', async () => {
+      const onToggleLearned = vi.fn()
+      const onRemoveFromSrs = vi.fn()
+      renderHome({ onToggleLearned, onRemoveFromSrs, words: [word1] })
+      await screen.findByRole('button', { name: /tap to see translation/i })
+      fireEvent.keyDown(window, { key: 'F8' })
+      expect(onToggleLearned).toHaveBeenCalledWith(1)
+      expect(onRemoveFromSrs).toHaveBeenCalledWith(1)
+    })
+
+    it('Ctrl+Shift+X toggles learned', async () => {
+      const onToggleLearned = vi.fn()
+      const onRemoveFromSrs = vi.fn()
+      renderHome({ onToggleLearned, onRemoveFromSrs, words: [word1] })
+      await screen.findByRole('button', { name: /tap to see translation/i })
+      fireEvent.keyDown(window, { key: 'x', ctrlKey: true, shiftKey: true })
+      expect(onToggleLearned).toHaveBeenCalledWith(1)
+      expect(onRemoveFromSrs).toHaveBeenCalledWith(1)
+    })
+
+    it('F4 advances to next word', async () => {
+      vi.spyOn(Math, 'random').mockReturnValue(0)
+      const onMatchResult = vi.fn()
+      renderHome({ onMatchResult, words: [word1, word2] })
+      await screen.findByRole('button', { name: /tap to see translation/i })
+      fireEvent.keyDown(window, { key: 'F4' })
+      await waitFor(() => {
+        expect(onMatchResult).toHaveBeenCalledWith(null)
+      })
+    })
+
+    it('Ctrl+Shift+E advances to next word', async () => {
+      vi.spyOn(Math, 'random').mockReturnValue(0)
+      const onMatchResult = vi.fn()
+      renderHome({ onMatchResult, words: [word1, word2] })
+      await screen.findByRole('button', { name: /tap to see translation/i })
+      fireEvent.keyDown(window, { key: 'e', ctrlKey: true, shiftKey: true })
+      await waitFor(() => {
+        expect(onMatchResult).toHaveBeenCalledWith(null)
+      })
+    })
+
+    it('Ctrl+Shift+digit selects rating when flipped', async () => {
+      const onReviewSaved = vi.fn()
+      renderHome({ onReviewSaved, words: [word1] })
+      await screen.findByRole('button', { name: /tap to see translation/i })
+      const input = screen.getByRole('textbox', { name: /input translation/i })
+      fireEvent.change(input, { target: { value: 'привет' } })
+      fireEvent.click(screen.getByRole('button', { name: /check/i }))
+      await screen.findByRole('button', { name: /card with translation/i })
+
+      fireEvent.keyDown(window, { key: '4', ctrlKey: true, shiftKey: true, code: 'Digit4' })
+      const goodLabel = screen.getByLabelText('Good (Needs just a bit more work)')
+      const radio = goodLabel.querySelector('input[type="radio"]') as HTMLInputElement
+      expect(radio.checked).toBe(true)
+    })
+
+    it('shortcuts do nothing when not on home view', async () => {
+      const onToggleFavorite = vi.fn()
+      const onToggleLearned = vi.fn()
+      renderHome({ onToggleFavorite, onToggleLearned, currentView: 'favorites', words: [word1] })
+      fireEvent.keyDown(window, { key: 'F2' })
+      fireEvent.keyDown(window, { key: 'F8' })
+      expect(onToggleFavorite).not.toHaveBeenCalled()
+      expect(onToggleLearned).not.toHaveBeenCalled()
+    })
+  })
 })

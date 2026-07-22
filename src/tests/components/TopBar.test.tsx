@@ -41,14 +41,9 @@ describe('TopBar', () => {
     expect(focusSpy).toHaveBeenCalled()
   })
 
-  it('skip link is tabbable on home view and not on learned view', () => {
-    const { unmount } = renderTopBar('home')
+  it('skip link is always non-tabbable via tabindex, focused programmatically', () => {
+    renderTopBar('home')
     const skipLink = document.querySelector('.skip-link') as HTMLElement
-    expect(skipLink.getAttribute('tabindex')).toBe('0')
-    unmount()
-
-    renderTopBar('learned')
-    const skipLink2 = document.querySelector('.skip-link') as HTMLElement
-    expect(skipLink2.getAttribute('tabindex')).toBe('-1')
+    expect(skipLink.getAttribute('tabindex')).toBe('-1')
   })
 })
