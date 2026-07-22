@@ -29,6 +29,8 @@ interface HomeProps {
   scheduler: FSRS
 }
 
+const isMac = /Mac|iPod|iPhone/.test(navigator.platform)
+
 const Home = forwardRef<HTMLInputElement, HomeProps>(function Home({
   words,
   favorites,
@@ -344,6 +346,44 @@ const Home = forwardRef<HTMLInputElement, HomeProps>(function Home({
       }
     }
   }, [currentWord, onToggleLearned, learnedIds, settings.autoAdvanceOnLearn, clearAutoLearnTimer, onRemoveFromSrs])
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (currentView !== 'home') return
+
+      const mod = isMac ? e.metaKey : e.ctrlKey
+
+      if (e.key === 'F2' || (mod && e.shiftKey && e.key.toLowerCase() === 'f')) {
+        e.preventDefault()
+        handleToggleFavorite()
+        return
+      }
+
+      if (e.key === 'F4' || (mod && e.shiftKey && e.key.toLowerCase() === 'e')) {
+        e.preventDefault()
+        handleNext()
+        return
+      }
+
+      if (e.key === 'F8' || (mod && e.shiftKey && e.key.toLowerCase() === 'x')) {
+        e.preventDefault()
+        handleToggleLearned()
+        return
+      }
+
+      if (isFlipped && mod && e.shiftKey) {
+        const digit = e.code.match(/^Digit([1-5])$/)
+        if (digit) {
+          e.preventDefault()
+          setSelectedRating(parseInt(digit[1], 10) - 1)
+          return
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [currentView, isFlipped, handleToggleFavorite, handleNext, handleToggleLearned])
 
   if (!currentWord) {
     if (!hasPicked.current) return null

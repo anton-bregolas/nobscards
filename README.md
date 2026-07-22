@@ -8,6 +8,15 @@ The app integrates the FSRS v6 spaced repetition algorithm via [ts-fsrs](https:/
 
 The app is distributed under the terms of the GNU General Public License v3.0.
 
+### Keyboard Shortcuts & Gestures
+
+Action | Key Combinations | Touch Gesture |
+| --- | --- | --- |
+| **Add to Favorites** | `F2` /<br>`CTRL + SHIFT + F` /<br>`⌘ + SHIFT + F` (MacOS) | `Swipe UP ↑` |
+| **Change Card** | `F4` /<br>`CTRL + SHIFT + E` /<br>`⌘ + SHIFT + E` (MacOS) | `Swipe RIGHT →` |
+| **Add to Learned** | `F8` /<br>`CTRL + SHIFT + X` /<br>`⌘ + SHIFT + X` (MacOS) |  |
+| **Rate Word** | `CTRL + SHIFT + 1-5` /<br>`⌘ + SHIFT + 1-5` (MacOS) |  |
+
 ## How User Data is Stored
 
 The app user's progress and current dictionary is stored in the browser's Local Storage. You can save and restore your progress in the Settings section by exporting or importing backup files in the JSON format (Settings -> Save Progress / Restore Progress). You can replace the example dictionary with your own as long as it matches the DB format specified below (Settings -> Change Dictionary).
