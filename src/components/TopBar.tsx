@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { View } from '../types'
 import { useTranslation } from '../i18n'
 
@@ -19,12 +19,16 @@ export default function TopBar({ view, onNavigate, onSkipToSection }: TopBarProp
   const favRef = useRef<HTMLButtonElement>(null)
   const skipRef = useRef<HTMLButtonElement>(null)
   const isInitialMount = useRef(true)
-  const forwardTab = useRef(false)
   const programmaticFocus = useRef(false)
+  const [skipTabbable, setSkipTabbable] = useState(false)
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      forwardTab.current = e.key === 'Tab' && !e.shiftKey
+      if (e.key === 'Tab' && !e.shiftKey && document.activeElement === favRef.current) {
+        e.preventDefault()
+        programmaticFocus.current = true
+        skipRef.current?.focus()
+      }
     }
     document.addEventListener('keydown', onKeyDown)
     return () => document.removeEventListener('keydown', onKeyDown)
@@ -33,6 +37,7 @@ export default function TopBar({ view, onNavigate, onSkipToSection }: TopBarProp
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false
+      setSkipTabbable(true)
       return
     }
     if (view === 'settings' || view === 'home') {
@@ -77,22 +82,24 @@ export default function TopBar({ view, onNavigate, onSkipToSection }: TopBarProp
       >
         <i className="bi bi-star-fill" />
       </button>
-      <button
-        ref={skipRef}
-        type="button"
-        tabIndex={view === 'home' || view === 'settings' ? 0 : -1}
-        className="skip-link"
-        onFocus={() => {
-          if (programmaticFocus.current) {
-            programmaticFocus.current = false
-            return
-          }
-          if (!forwardTab.current) favRef.current?.focus()
-        }}
-        onClick={onSkipToSection}
-      >
-        {t((skipLabels[view] ?? 'nav.skipToSection') as 'nav.skipToInput')}
-      </button>
+      {skipTabbable && (
+        <button
+          ref={skipRef}
+          type="button"
+          tabIndex={-1}
+          className="skip-link"
+          onFocus={() => {
+            if (programmaticFocus.current) {
+              programmaticFocus.current = false
+              return
+            }
+            favRef.current?.focus()
+          }}
+          onClick={onSkipToSection}
+        >
+          {t((skipLabels[view] ?? 'nav.skipToSection') as 'nav.skipToInput')}
+        </button>
+      )}
     </header>
   )
 }

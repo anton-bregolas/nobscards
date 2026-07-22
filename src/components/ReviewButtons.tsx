@@ -27,6 +27,8 @@ export default function ReviewButtons({ visible, selected, onSelect }: ReviewBut
       className={`srs-container absolute bottom-[2%] left-[5%] right-[5%] flex items-stretch rounded-2xl z-10 ${
         visible ? 'transition-opacity duration-375 ease-in-out delay-275 opacity-100' : 'opacity-0 pointer-events-none'
       }`}
+      aria-hidden={!visible}
+      inert={!visible || undefined}
     >
       {buttons.map(({ rating, emoji, key, dataAttr }) => {
         const fullLabel = `${t(labelKeys[key])} (${t(descKeys[key])})`
