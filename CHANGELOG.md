@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.2](https://github.com/bregolas/nobscards/compare/v0.1.1...v0.1.2) (2026-07-22)
+
+### ✨ Features
+
+* add keyboard shortcuts for card actions ([ba2008f](https://github.com/bregolas/nobscards/commit/ba2008fc46ef9be9c45a113dce6218587f58d310))
+
+### 🐛 Bug Fixes
+
+* prevent focus & tabbing for hidden elements ([cdc7a4d](https://github.com/bregolas/nobscards/commit/cdc7a4d1cb9b818d5a55c1cb156d12706bf8d256))
+
+### 🧪 Tests
+
+* update test suite with nav & focus changes ([13620f7](https://github.com/bregolas/nobscards/commit/13620f76ce3bd57879d8d23d6767da5d9f419ec3))
+* increase coverage to ~80% ([00ce070](https://github.com/bregolas/nobscards/commit/00ce070c093fe1bddf7f727f73a81e8fc946174d))
+
+### ⚙️ Continuous Integrations
+
+* update deploy pipeline to use node 24 ([16194e4](https://github.com/bregolas/nobscards/commit/16194e4a5336011f7ebbfb2e1c32103a68ee7560))
+
+### 💎 Styles
+
+* fix overengineering & pixel artifact ([a238ae3](https://github.com/bregolas/nobscards/commit/a238ae31056c0d8925095b6e2ffbf3331f0d1916))
+
+### 📚 Documentation
+
+* update README with keyboard shortcuts ([ba2008f](https://github.com/bregolas/nobscards/commit/ba2008fc46ef9be9c45a113dce6218587f58d310))
+
+### ♻️ Chores
+
+* **release:** 0.1.2 ([571f4ca](https://github.com/bregolas/nobscards/commit/571f4ca3bd37b7e392511d65c4cccde231f71504))
+
 ## [0.1.1](https://github.com/bregolas/nobscards/compare/v0.1.0...v0.1.1) (2026-07-20)
 
 ### ✨ Features
